@@ -1,0 +1,143 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/05/2016, 14:41:22
+    Author     : kibunke
+*/
+
+#searcher{
+    display: flex;
+    color: white;
+    font-family: "Lato",sans-serif;
+}
+#searcher > div:first-child{
+    /*background-color: #1C85C7;*/
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #1c85c7, #eee) repeat scroll 0 0;
+    /*background: linear-gradient( to bottom, #1C85C7, #3f3f3f);*/
+}
+#searcher > div:last-child{
+    background-color: #1C85C7;
+    background: linear-gradient( to top,  #3f3f3f,#1C85C7);
+}
+#searcher > div:last-child{
+    padding: 0px;
+}
+#searcher, #footer, #container, #header, #couchinnsContainer{
+    margin: 0px;
+}
+#searcher form div.form-group{
+    padding-left:  0px;
+}
+#searcher form > div{
+    padding-bottom: 5%;
+}
+#searcher > div:first-child h1{
+    margin: 0px;
+    padding-left: 2%;
+    padding-bottom: 15%;
+}
+#searcher > div:first-child h2{
+    padding-top: 5%;
+    padding-left: 2%;
+}
+#searcher button, #searcher div.jumbotron a, #couchinnsContainer div.thumbnail div.couchDetalle div.couchDetalleVer button{
+    background-color: rgb(150,172,60);
+    border-color: rgb(150,172,60);
+    color: white;
+}
+
+#searcher div.jumbotron blockquote{
+    font-size: 20px;
+}
+#searcher div.jumbotron blockquote p{
+    font-size: 23px;
+}
+#searcher .jumbotron h2{
+    font-size: 38px;
+    padding-bottom: 1%;
+}
+#searcher .blockquote-reverse, blockquote.pull-right{
+    border-right: 5px solid yellowgreen;
+    border-left: none; 
+    background-color: rgba(2, 2, 2, 0.7);
+    border-radius:  16px;
+}
+#searcher blockquote{
+    border-left: 5px solid yellowgreen; 
+}
+#searcher div.jumbotron{
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #eee, #ffebcd) repeat scroll 0 0;
+    padding-left: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    color: #000000;
+    padding-right: 5%;
+    border: 5px solid yellowgreen;
+    border-top-right-radius: 45px;
+    border-bottom-left-radius: 45px;
+}
+#couchinnsContainer > div:first-child{
+    padding: 0px;
+    padding-top: 1%;
+}
+#couchinnsContainer div.panel div.panel-body, #couchinnsContainer div.panel div.panel-body div.thumbnail{
+    padding: 0px;
+    margin: 0px;
+}
+
+div.panel.couchTipo div.panel-footer{
+    color: white; 
+    height: 45px;
+}
+div.panel.couchTipo div.panel-footer{
+    background-color:    rgb(150,172,60);
+    font-family: "Lato",sans-serif;
+    font-size: 18px;
+}
+
+#couchinnsContainer div.thumbnail p {
+    color: #999;
+}
+#couchinnsContainer div.thumbnail h3 {
+    color: #1C85C7;
+    margin-top: 0px;
+}
+#couchinnsContainer div.thumbnail img, #couchinnsContainer div.thumbnail, #couchinnsContainer div.panel{
+    border-top-left-radius:  14px;
+    border-top-right-radius:  14px;
+}
+#couchinnsContainer .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover{
+    border-color: yellowgreen;
+    background-color: yellowgreen;
+}
+#couchinnsContainer p.couchDescripcion{
+    padding: 5%;
+    display: inline-block;
+    height: 170px;
+}
+#couchinnsContainer div.thumbnail div.couchDetalle div.couchDetalleVer button{
+    margin: 5%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+#couchinnsContainer p.contenedorCalificaciones span, #couchinnsContainer p.contenedorCapacidad span{
+    color: #f17200;
+}
+
+#couchinnsContainer div.thumbnail h4{
+    margin-bottom: 2px;
+}
+#couchinnsContainer div.thumbnail div.couchDetalle > div{
+    padding: 0px;
+}
+#couchinnsContainer div.thumbnail div.couchDetalle > div:last-child{
+    border-bottom: 1px solid #ccc;
+}
+#couchinnsContainer .thumbnail, #couchinnsContainer .panel-default{
+    border: none;
+}

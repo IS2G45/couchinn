@@ -1,0 +1,73 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 09/12/2015, 20:59:23
+    Author     : kibunke
+*/
+body{
+    background-color: #EEEEEE !important;
+}
+body > div.row{
+    margin: 0px;
+}
+/**
+******  HEADER   *******
+*/
+#header a{
+    color: #6F6E6C;
+    text-decoration: none;
+}
+#header a:hover{
+    color: #1C85C7;
+}
+#header .botones{
+    border-left: 1px ridge #6F6E6C;
+    height: 70px;
+    padding-top: 30px;
+}
+#header { 
+    font-family: "Lato",sans-serif;
+    background-color: white;
+    font-size: 0.9em;
+    border-color: #aaa;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #aaa;
+}
+#header div.contenedorLogo{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+/**
+******  FOOTER   *******
+*/
+
+#footer a {
+    color: white;
+}
+#footer{
+    background-color: #3F3F3F;
+    color: white;
+    font-size: 13px;
+}
+#footer strong{
+    color: #EA740A;
+}
+#footer div.contenedorAddres{
+    padding: 0px;
+    padding-top: 10px;
+}
+#footer div.logoFooter{
+    padding: 0px;
+    padding-top: 60px;
+}
+#footer .contenedorAddres address{
+    margin-bottom: 10px;
+}
+#mapa{
+    padding: 0px;
+    padding-top: 5px; 
+    padding-right: 5px;
+}
