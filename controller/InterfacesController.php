@@ -17,14 +17,19 @@ class InterfacesController {
         $view = new InterfacesView();
         return $view->renderIndex();
     }
-    
+
     public function layoutAction() {
         $view = new InterfacesView();
         return $view->renderLayout();
     }
+
     public function registerAction() {
         $view = new InterfacesView();
         return $view->renderRegister();
+    }
+    public function newCouchAction() {
+        $view = new InterfacesView();
+        return $view->renderNewCouch();
     }
 
 }

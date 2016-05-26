@@ -15,4 +15,8 @@ class InterfacesView extends TwigView {
     public function renderRegister($parameters = array()) {
         echo self::getTwig()->render('register.html.twig', $parameters);
     }
+    
+    public function renderNewCouch($parameters = array()) {
+        echo self::getTwig()->render('newcouch.html.twig', $parameters);
+    }
 }

@@ -1,0 +1,150 @@
+{% extends "layout.html.twig" %}
+
+{% block otherStylesheet  %}
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}newCouch.css" type="text/css" />
+{% endblock %}
+
+{% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#newCouchProvincia").change(function () {
+                //alert($("#newCouchProvincia").val());
+                
+                $.ajax({
+                    method: "POST",
+                    url: "{{ constant('PATH_URL') }}couch.php?action=get_ciudades",
+                    dataType: "text",
+                    data: {"id_provincia": $("#newCouchProvincia").val()},
+                    beforeSend: function(){
+                        $("#newCouchCiudad").html("<option value=''>Cargando...</option>");
+                    },
+                    complete: function(data) {
+                        console.log(data);
+                        $("#newCouchCiudad").html(data.responseText);
+                    }
+                });
+                
+            });
+
+            $("#imagePreview").on("click", function () {
+                $("#uploadFile").click();
+            });
+            $("#uploadFile").on("change", function () {
+                var files = !!this.files ? this.files : [];
+                if (!files.length || !window.FileReader)
+                    return; // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) { // only image file
+                    var reader = new FileReader(); // instance of the FileReader
+                    reader.readAsDataURL(files[0]); // read the local file
+
+                    reader.onloadend = function () { // set image data as background of div
+                        $("#imagePreview").html("");
+                        $("#imagePreview").css("background-image", "url(" + this.result + ")");
+                    };
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block  headerMenu %}
+    {% include  "userbuttonmenu.html.twig" %}
+{% endblock %}
+
+{% block container %}
+    {% include  "usermenu.html.twig" %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-3 containerPublicidad">
+                {% include  "publicidad_4.html.twig" %}
+            </div>
+            <div id="newCouchContainer" class="col-md-9">
+                <div class="page-header">
+                    <h1>Couch <small>- nuevo</small></h1>
+                </div>
+                <form id="couchNewForm" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group form-group-lg">
+                                <label for="newCouchTipo" class="col-md-3 control-label ">Tipo</label>
+                                <div class="col-md-9">
+                                    <select id="newCouchTipo" class="form-control" required="required">
+                                        <option value="">Tipo</option>
+                                        {% for tipo in tipos %}
+                                            <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">
+                                <label for="newCouchCapacidad" class="col-md-3 control-label">Capacidad</label>
+                                <div class="col-md-9">
+                                    <input id="newCouchCapacidad" type="number" class="form-control" required placeholder="Capacidad">
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">
+                                <label for="newCouchLugar" class="col-md-3 control-label">Lugar</label>
+                                <div class="col-md-9">
+                                    <select id="newCouchProvincia" class="form-control" required="required">
+                                        <option value="">Provincia</option>
+                                        {% for provincia in provincias %}
+                                            <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg">
+                                <div class="col-md-9 col-md-offset-3">
+                                    <select id="newCouchCiudad" class="form-control" required="required">
+                                        <option value="">Ciudad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
+                                <h4 class="text-center">FOTO</h4>
+                            </div>
+                            <input id="uploadFile" type="file" name="image" class="img hidden" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group form-group-lg">
+                            <label for="newCouchTitulo" class="col-md-2 control-label">T&iacute;tulo</label>
+                            <div class="col-md-10">
+                                <input id="newCouchTitulo" type="text" class="form-control" required="required" placeholder="Título">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group form-group-lg">
+                            <label for="newCouchDescripcion" class="col-md-2 control-label">Descripci&oacute;n</label>
+                            <div class="col-md-10">
+                                <textarea id="newCouchDescripcion" class="form-control" rows="7" required="required" placeholder="Descripción"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary btn-lg">CREAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-md-12  containerPublicidad">
+                {% include  "publicidad_3.html.twig" %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -17,8 +17,8 @@ switch ($_GET["show"]) {
     case 'register':
         InterfacesController::getInstance()->registerAction();
         break;
-    case 'counchinn':
-        //CuotasController::getInstance()->modificar();
+    case 'new':
+        InterfacesController::getInstance()->newCouchAction();
         break;
     default:
         echo "index";

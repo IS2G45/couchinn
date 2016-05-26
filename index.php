@@ -1,1 +1,2 @@
-nuevo hola mundo
+<?php
+   echo "<button>nuevo boton</button>";

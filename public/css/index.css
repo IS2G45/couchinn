@@ -83,10 +83,7 @@ and open the template in the editor.
     padding: 0px;
     padding-top: 1%;
 }
-#couchinnsContainer div.panel div.panel-body, #couchinnsContainer div.panel div.panel-body div.thumbnail{
-    padding: 0px;
-    margin: 0px;
-}
+
 
 div.panel.couchTipo div.panel-footer{
     color: white; 

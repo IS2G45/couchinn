@@ -71,3 +71,44 @@ body > div.row{
     padding-top: 5px; 
     padding-right: 5px;
 }
+div.containerPublicidad  div.panel div.panel-body, div.containerPublicidad  div.panel div.panel-body div.thumbnail{
+    margin: 0px;
+    padding: 0px;
+}
+/**
+  MENU DEL BOTON DE USUARIO REGISTRADO EN EL SISTEMA UBICADO EN EL HEADER 
+*/
+#userbuttonmenu{}
+
+#userbuttonmenu button{
+    border: none;
+    font-family: "Lato",sans-serif;
+    color: #6F6E6C;
+    text-decoration: none;
+    font-size: 1em;
+    padding-top: 0px;
+}
+#userbuttonmenu button:hover{
+    color: #1C85C7;
+    background-color: rgb(255,255,255);
+
+}
+
+#userbuttonmenu .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default{
+    background-color: rgb(255,255,255);
+}
+#userbuttonmenu .btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default.focus:active, .btn-default:active:focus, .btn-default:active:hover, .open > .dropdown-toggle.btn-default.focus, .open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover{
+    background-color: rgb(255,255,255);
+}
+#userbuttonmenu a:hover{
+    color: #1C85C7;
+}
+/*****************************************************************************/
+body .btn-primary:hover{
+    background-color: rgb(40,139,201);
+}
+body .btn-primary{
+    color: white;
+    background-color: rgb(150,172,60);
+    border-color: rgb(150,172,60);
+}
