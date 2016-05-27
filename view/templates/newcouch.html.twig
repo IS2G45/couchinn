@@ -2,30 +2,76 @@
 
 {% block otherStylesheet  %}
     <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}newCouch.css" type="text/css" />
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
 {% endblock %}
 
 {% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/button.js"></script>
+    <script src="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.min.js"></script>
+    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
+            //Manejo de submit via ajax
+            $('#couchNewForm').submit(function (event) {
+                //cambiar estado del boton submit
+                $("#newCouchSubmit").button('loading');
+                $("#modalLoading").modal({
+                    "show": true,
+                    "keyboard": false,
+                    "backdrop": "static"
+                });
+                // process the form
+                $.ajax({
+                    type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                    url: "{{ constant('PATH_URL') }}couch.php?action=couch_submit", // the url where we want to POST
+                    data: new FormData(this), // our data object
+                    contentType: false,
+                    //cache: false,
+                    dataType: 'json',
+                    processData: false
+                })
+                        // using the done promise callback
+                        .done(function (data) {
+                            //Se verifica si hubo error del lado del servidor
+                            if (data.error) {
+                                swal("Error!", "Tu Couch NO fue registrado en el sistema." + data.msj, "error");
+                            } else {
+                                $("#modalLoading").modal("hide");
+                                //Cambiar botton
+                                $("#newCouchSubmit").button('reset');
+
+                                //Reset form
+                                $('#couchNewForm').trigger("reset");
+                                $("#imagePreview").html('<h4 class="text-center">FOTO</h4>');
+                                $("#imagePreview").css("background-image", "none");
+
+                                //confirmacion de exito
+                                swal("Felicitaciones!", "Tu Couch fue registrado exitosamente!", "success");
+                            }
+                        });
+                event.preventDefault();
+            });
+
+
+
+
             $("#newCouchProvincia").change(function () {
-                //alert($("#newCouchProvincia").val());
-                
                 $.ajax({
                     method: "POST",
                     url: "{{ constant('PATH_URL') }}couch.php?action=get_ciudades",
                     dataType: "text",
                     data: {"id_provincia": $("#newCouchProvincia").val()},
-                    beforeSend: function(){
+                    beforeSend: function () {
                         $("#newCouchCiudad").html("<option value=''>Cargando...</option>");
                     },
-                    complete: function(data) {
+                    complete: function (data) {
                         console.log(data);
                         $("#newCouchCiudad").html(data.responseText);
                     }
                 });
-                
+
             });
 
             $("#imagePreview").on("click", function () {
@@ -71,10 +117,10 @@
                             <div class="form-group form-group-lg">
                                 <label for="newCouchTipo" class="col-md-3 control-label ">Tipo</label>
                                 <div class="col-md-9">
-                                    <select id="newCouchTipo" class="form-control" required="required">
-                                        <option value="">Tipo</option>
+                                    <select id="newCouchTipo" class="form-control" name="idTipoCouch" required="required">
+                                        <option value="">Seleccionar...</option>
                                         {% for tipo in tipos %}
-                                            <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre }}</option>
+                                            <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre |title }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -83,14 +129,14 @@
                             <div class="form-group form-group-lg">
                                 <label for="newCouchCapacidad" class="col-md-3 control-label">Capacidad</label>
                                 <div class="col-md-9">
-                                    <input id="newCouchCapacidad" type="number" class="form-control" required placeholder="Capacidad">
+                                    <input id="newCouchCapacidad" type="number" name="capacidad" class="form-control" required placeholder="Capacidad">
                                 </div>
                             </div>
 
                             <div class="form-group form-group-lg">
                                 <label for="newCouchLugar" class="col-md-3 control-label">Lugar</label>
                                 <div class="col-md-9">
-                                    <select id="newCouchProvincia" class="form-control" required="required">
+                                    <select id="newCouchProvincia" name="idProvincia" class="form-control" required="required">
                                         <option value="">Provincia</option>
                                         {% for provincia in provincias %}
                                             <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
@@ -101,8 +147,8 @@
 
                             <div class="form-group form-group-lg">
                                 <div class="col-md-9 col-md-offset-3">
-                                    <select id="newCouchCiudad" class="form-control" required="required">
-                                        <option value="">Ciudad</option>
+                                    <select id="newCouchCiudad" class="form-control" name="idCiudad" required="required">
+                                        <option value="">----</option>
                                     </select>
                                 </div>
                             </div>
@@ -111,15 +157,16 @@
                             <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
                                 <h4 class="text-center">FOTO</h4>
                             </div>
-                            <input id="uploadFile" type="file" name="image" class="img hidden" />
+                            <input id="uploadFile" type="file" name="foto" required="required" class="img hidden" />
                         </div>
 
-                    </div>
+                    </div> 
+
                     <div class="row">
                         <div class="form-group form-group-lg">
                             <label for="newCouchTitulo" class="col-md-2 control-label">T&iacute;tulo</label>
                             <div class="col-md-10">
-                                <input id="newCouchTitulo" type="text" class="form-control" required="required" placeholder="Título">
+                                <input id="newCouchTitulo" name="titulo" type="text" class="form-control" required="required" placeholder="Título">
                             </div>
                         </div>
                     </div>
@@ -127,19 +174,18 @@
                         <div class="form-group form-group-lg">
                             <label for="newCouchDescripcion" class="col-md-2 control-label">Descripci&oacute;n</label>
                             <div class="col-md-10">
-                                <textarea id="newCouchDescripcion" class="form-control" rows="7" required="required" placeholder="Descripción"></textarea>
+                                <textarea id="newCouchDescripcion" name="descripcion" class="form-control" rows="7" required="required" placeholder="Descripción"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary btn-lg">CREAR</button>
+                                <button id="newCouchSubmit" type="submit" data-loading-text="Enviando..."  class="btn btn-primary btn-lg">CREAR</button>
                             </div>
                         </div>
                     </div>
                 </form>
-
             </div>
             <div class="col-md-12  containerPublicidad">
                 {% include  "publicidad_3.html.twig" %}

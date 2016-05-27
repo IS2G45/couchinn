@@ -112,3 +112,20 @@ body .btn-primary{
     background-color: rgb(150,172,60);
     border-color: rgb(150,172,60);
 }
+
+/**
+Modal Loading....
+*/
+#modalLoading div.modal-content{
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+#modalLoading img{
+    height: 180px;
+    margin-top: 50%;
+}
+.sweet-alert button{
+    background-color: rgb(150,172,60) !important;
+}
+/******************************************************************************/

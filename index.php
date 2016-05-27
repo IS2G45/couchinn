@@ -1,2 +1,2 @@
 <?php
-   echo "<button>nuevo boton</button>";
+   echo phpinfo();

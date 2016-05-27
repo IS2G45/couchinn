@@ -1,4 +1,4 @@
-<option value="">Ciudad</option>
+<option value="">Seleccionar...</option>
 {% for ciudad in ciudades %}    
-    <option value="ciudad.idTipoCouch">{{ ciudad.nombre }}</option>
+    <option value="{{ ciudad.idCiudad }}">{{ ciudad.nombre |title}}</option>
 {% endfor %}

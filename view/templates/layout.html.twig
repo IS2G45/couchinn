@@ -47,6 +47,18 @@
         {% endblock %}
         {% block container %}
         {% endblock %}
+        {% block modalLoading %}
+            <!-- Modal -->
+            <div class="modal fade" id="modalLoading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="{{ constant('PATH_URL_IMG') }}loading4.gif" style="height: 180px;" alt="Logo de cargando">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
         {% block footer %}
             <div id="footer" class="row" >
                 <div class="col-md-3">

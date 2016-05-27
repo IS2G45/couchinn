@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,7 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
         case 'get_ciudades':
-            echo CouchController::getInstance()->getCiudades($_POST["id_provincia"]);
+            echo CouchController::getInstance()->ajax_getCiudades();
+            break;
+        case 'couch_submit':
+            echo CouchController::getInstance()->ajax_couchSubmit();
             break;
         default:
             //IndexController::getInstance()->errorPage();
