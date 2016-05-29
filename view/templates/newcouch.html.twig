@@ -54,9 +54,7 @@
                 event.preventDefault();
             });
 
-
-
-
+            //Cargar ciudad via Ajax
             $("#newCouchProvincia").change(function () {
                 $.ajax({
                     method: "POST",
@@ -74,6 +72,7 @@
 
             });
 
+            //Cargar Imagen
             $("#imagePreview").on("click", function () {
                 $("#uploadFile").click();
             });
@@ -108,84 +107,93 @@
                 {% include  "publicidad_4.html.twig" %}
             </div>
             <div id="newCouchContainer" class="col-md-9">
-                <div class="page-header">
-                    <h1>Couch <small>- nuevo</small></h1>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="page-header">
+                            <h1>Couch <small>- nuevo</small></h1>
+                        </div>
+                        <form id="couchNewForm" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group form-group-lg">
+                                        <label for="newCouchTipo" class="col-md-3 control-label ">Tipo</label>
+                                        <div class="col-md-9">
+                                            <select id="newCouchTipo" class="form-control" name="idTipoCouch" required="required">
+                                                <option value="">Seleccionar...</option>
+                                                {% for tipo in tipos %}
+                                                    <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre |title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-lg">
+                                        <label for="newCouchCapacidad" class="col-md-3 control-label">Capacidad</label>
+                                        <div class="col-md-9">
+                                            <input id="newCouchCapacidad" type="number" name="capacidad" class="form-control" required placeholder="Capacidad">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-lg">
+                                        <label for="newCouchLugar" class="col-md-3 control-label">Lugar</label>
+                                        <div class="col-md-9">
+                                            <select id="newCouchProvincia" name="idProvincia" class="form-control" required="required">
+                                                <option value="">Provincia</option>
+                                                {% for provincia in provincias %}
+                                                    <option value="{{ provincia.id }}">{{ provincia.nombre | title }}</option>
+                                                {% endfor %} 
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-lg">
+                                        <div class="col-md-9 col-md-offset-3">
+                                            <select id="newCouchCiudad" class="form-control" name="idCiudad" required="required">
+                                                <option value="">----</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
+                                        <h4 class="text-center">FOTO</h4>
+                                    </div>
+                                    <input id="uploadFile" type="file" name="foto" required="required" class="img hidden" />
+                                </div>
+
+                            </div> 
+
+                            <div class="row">
+                                <div class="form-group form-group-lg">
+                                    <label for="newCouchTitulo" class="col-md-2 control-label">T&iacute;tulo</label>
+                                    <div class="col-md-10">
+                                        <input id="newCouchTitulo" name="titulo" type="text" class="form-control" required="required" placeholder="Título">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group form-group-lg">
+                                    <label for="newCouchDescripcion" class="col-md-2 control-label">Descripci&oacute;n</label>
+                                    <div class="col-md-10">
+                                        <textarea id="newCouchDescripcion" name="descripcion" class="form-control" rows="7" required="required" placeholder="Descripción"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="newCouchSubmit" type="submit" data-loading-text="Enviando..."  class="btn btn-primary btn-lg">CREAR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                    </div>
                 </div>
-                <form id="couchNewForm" class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="form-group form-group-lg">
-                                <label for="newCouchTipo" class="col-md-3 control-label ">Tipo</label>
-                                <div class="col-md-9">
-                                    <select id="newCouchTipo" class="form-control" name="idTipoCouch" required="required">
-                                        <option value="">Seleccionar...</option>
-                                        {% for tipo in tipos %}
-                                            <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre |title }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-lg">
-                                <label for="newCouchCapacidad" class="col-md-3 control-label">Capacidad</label>
-                                <div class="col-md-9">
-                                    <input id="newCouchCapacidad" type="number" name="capacidad" class="form-control" required placeholder="Capacidad">
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-lg">
-                                <label for="newCouchLugar" class="col-md-3 control-label">Lugar</label>
-                                <div class="col-md-9">
-                                    <select id="newCouchProvincia" name="idProvincia" class="form-control" required="required">
-                                        <option value="">Provincia</option>
-                                        {% for provincia in provincias %}
-                                            <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-lg">
-                                <div class="col-md-9 col-md-offset-3">
-                                    <select id="newCouchCiudad" class="form-control" name="idCiudad" required="required">
-                                        <option value="">----</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
-                                <h4 class="text-center">FOTO</h4>
-                            </div>
-                            <input id="uploadFile" type="file" name="foto" required="required" class="img hidden" />
-                        </div>
-
-                    </div> 
-
-                    <div class="row">
-                        <div class="form-group form-group-lg">
-                            <label for="newCouchTitulo" class="col-md-2 control-label">T&iacute;tulo</label>
-                            <div class="col-md-10">
-                                <input id="newCouchTitulo" name="titulo" type="text" class="form-control" required="required" placeholder="Título">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group form-group-lg">
-                            <label for="newCouchDescripcion" class="col-md-2 control-label">Descripci&oacute;n</label>
-                            <div class="col-md-10">
-                                <textarea id="newCouchDescripcion" name="descripcion" class="form-control" rows="7" required="required" placeholder="Descripción"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button id="newCouchSubmit" type="submit" data-loading-text="Enviando..."  class="btn btn-primary btn-lg">CREAR</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
             <div class="col-md-12  containerPublicidad">
                 {% include  "publicidad_3.html.twig" %}

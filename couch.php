@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,16 +8,25 @@
 
 require_once('./config/config.php');
 require_once(PATH_CONTROLLER . 'CouchController.php');
+require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    switch ($_GET["show"]) {
+    switch ($_GET["action"]) {
         case 'new':
             CouchController::getInstance()->newAction();
             break;
+        case 'show':
+            if (isset($_GET["id"])) {
+                CouchController::getInstance()->showAction();
+            } else {
+                //Se lanza una pagina de error
+                ErrorHandlerController::getInstance()->notFoundAction();
+            }
+            break;
         default:
-            echo "index";
-            //IndexController::getInstance()->errorPage();
+            //Se lanza una pagina de error
+            ErrorHandlerController::getInstance()->notFoundAction();
             break;
     }
 }

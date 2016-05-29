@@ -12,6 +12,7 @@
  * @author kibunke
  */
 require_once(PATH_VIEW . 'CouchView.php');
+require_once(PATH_VIEW . 'ErrorHandlerView.php');
 require_once(PATH_MODEL . 'CouchModel.php');
 
 class CouchController {
@@ -40,10 +41,29 @@ class CouchController {
     }
 
     /**
+     * Muestra un couch
+     */
+    public function showAction() {
+        $couch = CouchModel::getInstance()->getCouchById(array(
+            "idCouch" => $_GET['id']
+        ));
+        if ($couch) {
+            $view = new CouchView();
+            return $view->renderShow($couch);
+        } else {
+            //No fue encontrado el couch en la BD
+            $view = new ErrorHandlerView();
+            return $view->renderNotFound();
+        }
+    }
+
+    /**
      * Funcion llamada por ajax para retornar las ciudades de una provincia recibida como parámetro
      */
     public function ajax_getCiudades() {
-        $ciudades = CouchModel::getInstance()->getCiudades(array("id_provincia" => $_POST["id_provincia"]));
+        $ciudades = CouchModel::getInstance()->getCiudades(array(
+            "id_provincia" => $_POST["id_provincia"]
+        ));
         $view = new CouchView();
         return $view->renderCiudades(array(
                     "ciudades" => $ciudades,

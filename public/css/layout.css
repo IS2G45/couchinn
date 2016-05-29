@@ -129,3 +129,17 @@ Modal Loading....
     background-color: rgb(150,172,60) !important;
 }
 /******************************************************************************/
+
+div.panel div.panel-heading{
+    border-top-right-radius: 20px !important;
+    border-top-left-radius: 20px !important;
+}
+
+div.panel div.panel-footer{
+    border-bottom-right-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+}
+div.panel div.panel-footer,  div.panel div.panel-heading{ 
+    background-color: rgb(150,172,60) !important;
+    border-color: rgb(150,172,60) !important;
+}

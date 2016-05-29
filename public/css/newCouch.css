@@ -39,5 +39,14 @@ form > div.row{
     background-color: white;
     border-radius: 20px;
     margin-bottom: 50px;
-    padding-bottom: 20px;
+    padding: 0px;
+}
+#newCouchContainer div.panel{
+    padding: 0px;
+    margin: 0px;
+}
+
+#newCouchContainer div.panel{
+    border-radius: 20px;
+    border: 0px;
 }

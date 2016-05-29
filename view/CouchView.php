@@ -20,6 +20,13 @@ class CouchView extends TwigView {
     public function renderNew($parameters = array()) {
         echo self::getTwig()->render('newcouch.html.twig', $parameters);
     }
+    
+    /**
+     * Muestra la página del detalle de una couch
+     */
+    public function renderShow($parameters = array()) {
+        echo self::getTwig()->render('showcouch.html.twig', $parameters);
+    }
 
     /**
      * Muestra las opciones de un campo select de ciudades de una provincia
