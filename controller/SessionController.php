@@ -155,6 +155,7 @@ class SessionController {
      * 
      */
     public function getData() {
+        session_start();
         $session = SessionController::getInstance();
         return array(
             "logueado" => $session->getValueAction("LOGUEADO"),

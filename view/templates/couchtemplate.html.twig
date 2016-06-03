@@ -21,11 +21,11 @@
                     </div>
                     {% if session.logueado %}
                         <div class="col-md-12 text-center couchDetalleVer">
-                            <a type="button" href="{{ constant('PATH_URL') }}couch.php?action=show&id={{ couch.idCouch }}" class="btn btn-primary btn-lg active">VISITAR  <span class="glyphicon glyphicon-hand-right"></span></a>
+                            <a type="button" href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{ couch.idCouch }}" class="btn btn-primary btn-lg active">VISITAR  <span class="glyphicon glyphicon-hand-right"></span></a>
                         </div>
                     {% else %}
                         <div class="col-md-12 text-center couchDetalleVer">
-                            <a type="button" href="{{ constant('PATH_URL') }}register_login.php?action=show" class="btn btn-primary btn-lg active">INGRESAR</a>
+                            <a type="button" href="{{ constant('ROOT_URL') }}register_login.php?action=show" class="btn btn-primary btn-lg active">INGRESAR</a>
                         </div>
                     {% endif %}
                 </div>
@@ -34,5 +34,5 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer text-center">CABAÑA</div>
+    <div class="panel-footer text-center">{{couch.tipo |upper}}</div>
 </div>                

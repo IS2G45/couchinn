@@ -44,7 +44,7 @@ define('PATH_VENDOR', ROOT . 'vendor/');
 define('PATH_VIEW', ROOT . 'view/');
 define('PATH_CONTROLLER', ROOT . 'controller/');
 define('PATH_MODEL', ROOT . 'model/');
-define('ROOT_URL',  'http://couchinn.esy.es/');
+define('PATH_URL',  'http://couchinn.esy.es/');
 define('PATH_URL_CSS', ROOT_URL.'public/css/');
 define('PATH_URL_IMG',ROOT_URL.'public/images/');
 define('PATH_URL_JS', ROOT_URL . 'public/js/');

@@ -31,7 +31,7 @@ class IndexController {
      */
     private function paginador_process($pagina = 1) {
         $total = CouchModel::getInstance()->count();
-        $limit = 3; //cantidad de paginas a mostrar
+        $limit = 9; //cantidad de paginas a mostrar
         $paginas = ceil($total / $limit); //cantidad de paginas en el sistema
         $offset = ($pagina - 1) * $limit;
         $couchinns = CouchModel::getInstance()->getCouchs(array(

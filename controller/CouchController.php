@@ -103,9 +103,10 @@ class CouchController {
                 "msj" => "Error al cargar la imagen. (tamaño < 8Mb)"
             ));
         }
+        $session = SessionController::getInstance()->getData();
         $result = CouchModel::getInstance()->newCouch(array(
             'idTipoCouch' => $_POST['idTipoCouch'],
-            'idUsuario' => 1,
+            'idUsuario' => $session['id'],
             'idCiudad' => $_POST['idCiudad'],
             'capacidad' => $_POST['capacidad'],
             'descripcion' => $_POST['descripcion'],
@@ -120,8 +121,7 @@ class CouchController {
         } else {
             return json_encode(array(
                 "error" => true,
-                "info" => var_dump($result)
-                    //"msj" => "Error en la Base de Datos."
+                "msj" => "Error en la Base de Datos.".  var_dump($session['id'])
             ));
         }
     }

@@ -27,21 +27,8 @@
     <div id="couchinnsContainer" class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="col-md-9">
-                <div id="indexCouchLoading" class="col-md-12 text-center">
-                    <img src="{{ constant('PATH_URL_IMG') }}loading6.gif" style="height: 150px;" alt="Cargando">
-                </div>
-                <div id="indexCouchinns">
-                    {% for couch in couchs %}
-                        {% include "couchtemplate.html.twig" with{'couch': couch} %}
-                    {% endfor %}
-                </div>
-                <div id="indexPaginador" class="col-md-12 text-center">
-                    <nav>
-                        <ul class="pagination pagination-lg">
-                            {% include "indexpaginador.html.twig" with{"pagActiva": pagActiva, "paginas": paginas} %}
-                        </ul>
-                    </nav>
-                </div>
+                <h1 class="text-center">Conviertete en Preium</h1>
+                
             </div>
             <div class="col-md-3 containerPublicidad">
                 {% include  "publicidad_1.html.twig" %}
