@@ -23,28 +23,44 @@
         {% block otherJavascripts %}
         {% endblock %}
         {% block  header %}
-            <div id="header" class="row">
+            <div id="header" class="row {% if session.logueado and session.tipo == 'PREMIUM' %}headerPremium{% endif %}">
                 <div class="col-md-4 col-md-offset-2 contenedorLogo">
-                    <img src="{{ constant('PATH_URL_IMG') }}couchinnLogo.png" style="height: 60px;" alt="Logo de Couchinn">
+                    <a href="{{ constant('PATH_URL') }}index.php">
+                        <img src="{{ constant('PATH_URL_IMG') }}couchinnLogo.png" style="height: 60px;" alt="Logo de Couchinn">
+                    </a>
                 </div>
                 <div class="col-md-4 text-center">
                     <div class="col-md-3 botones">
-                        <a href="#">NOSOTROS</a>
+                        <a href="#"></a>
                     </div>
                     <div class="col-md-3 botones">
-                        <a href="#">¿COUCHINN?</a>
+                        {% if session.logueado and session.tipo == 'PREMIUM' %}
+                            <a href="{{ constant('PATH_URL') }}index.php">BENEFICIOS</a>
+                        {% else %}
+                            <a href="{{ constant('PATH_URL') }}index.php">SE PREMIUM!</a>
+                        {% endif %}
                     </div>
                     <div class="col-md-3 botones">
-                        <a href="#">COUCH'S</a>
+                        <a href="{{ constant('PATH_URL') }}index.php">COUCH'S</a>
                     </div>
                     {% block headerMenu %}
-                        <div class="col-md-3 botones">
-                            <a href="#">INGRESAR</a>
-                        </div>
+                        {% if session.logueado  %}
+                            {% include 'userbuttonmenu.html.twig'%}
+                        {% else %}
+                            <div class="col-md-3 botones">
+                                <a href="{{ constant('PATH_URL') }}register_login.php?action=show">INGRESAR  <span class="glyphicon glyphicon-log-in"></span></a>
+                            </div>
+                        {% endif %}
                     {% endblock %}
                 </div>
+                {% if session.logueado and session.tipo == 'PREMIUM' %}
+                    <div id="textPremium" class="col-md-2 text-center "><h2><strong>PREMIUM</strong></h2></div>
+                            {% endif %}
             </div>
         {% endblock %}
+        {% if session.logueado  %}
+            {% include  "usermenu.html.twig" %}
+        {% endif %}
         {% block container %}
         {% endblock %}
         {% block modalLoading %}

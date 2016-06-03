@@ -50,3 +50,6 @@ form > div.row{
     border-radius: 20px;
     border: 0px;
 }
+#ciudadLoading{
+    display: none;
+}

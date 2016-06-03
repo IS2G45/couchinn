@@ -31,9 +31,9 @@ define('PATH_URL_MODEL', ROOT_URL . 'model/');
 //Produccion
 /*
 define('DB_HOST', 'localhost');
-define('DB_USER', 'grupo_60');
-define('DB_PASS', 'XdybY8cUqnTXi5EH');
-define('DB_NAME', 'grupo_60');
+define('DB_USER', 'u126531039_couch');
+define('DB_PASS', 'is2_2016');
+define('DB_NAME', 'u126531039_couch');
 define('DB_CHAR', 'utf8');
 
 define('ROOT',  substr(dirname(__FILE__),0, -6));

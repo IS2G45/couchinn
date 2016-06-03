@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(1);
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,25 +10,19 @@
  */
 
 require_once('./config/config.php');
-require_once(PATH_CONTROLLER . 'CouchController.php');
+require_once(PATH_CONTROLLER . 'RegisterLoginController.php');
 require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     switch ($_GET["action"]) {
-        case 'new':
-            CouchController::getInstance()->newAction();
+        case 'logout':
+            RegisterLoginController::getInstance()->logout();
             break;
         case 'show':
-            if (isset($_GET["id"])) {
-                CouchController::getInstance()->showAction();
-            } else {
-                //Se lanza una pagina de error
-                ErrorHandlerController::getInstance()->notFoundAction();
-            }
+            RegisterLoginController::getInstance()->showAction();
             break;
         default:
-            //Se lanza una pagina de error
             ErrorHandlerController::getInstance()->notFoundAction();
             break;
     }
@@ -34,14 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //Se chequea si el requerimiento http es via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
-        case 'get_ciudades':
-            echo CouchController::getInstance()->ajax_getCiudadesAction();
+        case 'login':
+            echo RegisterLoginController::getInstance()->ajax_loginSubmitAction();
             break;
-        case 'couch_submit':
-            echo CouchController::getInstance()->ajax_couchSubmitAction();
+        case 'recovery':
+            echo RegisterLoginController::getInstance()->ajax_recoveryAction();
             break;
-        default:
-            //IndexController::getInstance()->errorPage();
+        case 'register':
+            echo RegisterLoginController::getInstance()->ajax_registerSubmitAction();
             break;
     }
 }

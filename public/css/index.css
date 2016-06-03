@@ -42,12 +42,14 @@ div.panel.couchTipo div.panel-footer{
     display: inline-block;
     height: 170px;
 }
-#couchinnsContainer div.thumbnail div.couchDetalle div.couchDetalleVer button{
+#couchinnsContainer div.thumbnail div.couchDetalle div.couchDetalleVer a{
     margin: 5%;
     padding-bottom: 5px;
     padding-top: 5px;
     padding-left: 5%;
     padding-right: 5%;
+    background-color: rgb(150,172,60);
+    border-color: rgb(150,172,60);
 }
 #couchinnsContainer p.contenedorCalificaciones span, #couchinnsContainer p.contenedorCapacidad span{
     color: #f17200;
@@ -80,6 +82,9 @@ div.panel.couchTipo div.panel-footer{
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
 }
+#couchinnsContainer .thumbnail img{
+    background-color: rgb(240,251,253);
+}
 #couchinnsContainer .thumbnail{
     padding: 0px;
     margin: 0px;
@@ -87,4 +92,15 @@ div.panel.couchTipo div.panel-footer{
 #couchinnsContainer .thumbnail .caption{
     background:  rgba(0, 0, 0, 0) linear-gradient(to top, rgb(255,255,255), #effbfd) repeat scroll 0 0;
     border: none;
+}
+
+#indexCouchLoading{
+    margin-top: 50px;
+    display: none;    
+}
+#couchinnsNoImage{
+    height: 178px; 
+    width: 420px;
+    padding-bottom: 60px;
+    padding-top: 60px;
 }

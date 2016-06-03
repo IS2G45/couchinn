@@ -1,13 +1,20 @@
 {% extends "layout.html.twig" %}
 
 {% block otherStylesheet  %}
-    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}index.css" type="text/css" />
     <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}showCouch.css" type="text/css" />
     <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}searcher.css" type="text/css" />
 {% endblock %}
 
 {% block otherJavascripts %}
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/carousel.js"></script>
+    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#imagePreview").on("click", function () {
+                $('#couchFullscreen').click();
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block container %}
@@ -29,50 +36,60 @@
                                     <div class="form-group form-group-lg">
                                         <label for="newCouchTipo" class="col-md-3 control-label ">Título</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{ titulo | capitalize}}</p>
+                                            <p class="form-control-static">{{ couch.titulo | capitalize}}</p>
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-lg">
                                         <label for="newCouchTipo" class="col-md-3 control-label ">Tipo</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{ tipo | capitalize}}</p>
+                                            <p class="form-control-static">{{ couch.tipo | capitalize}}</p>
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-lg">
                                         <label for="newCouchCapacidad" class="col-md-3 control-label">Capacidad</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{ capacidad }}</p>
+                                            <p class="form-control-static">{{ couch.capacidad }}</p>
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-lg">
                                         <label for="newCouchLugar" class="col-md-3 control-label">Lugar</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{ ciudad | capitalize}} - {{ provincia | title}}</p>
+                                            <p class="form-control-static">{{ couch.ciudad | capitalize}} - {{ couch.provincia | title}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
-                                        <img  src="data:image/png;base64,{{foto}}"/>
+                                        <img  src="data:image/png;base64,{{couch.foto}}" />
                                     </div>
                                 </div>
-
                             </div> 
 
                             <div class="row">
                                 <div class="form-group form-group-lg">
                                     <label for="newCouchDescripcion" class="col-md-2 control-label">Descripci&oacute;n</label>
                                     <div class="col-md-10">
-                                        <p class="form-control-static">{{ descripcion | capitalize }}</p>
+                                        <p class="form-control-static">{{ couch.descripcion | capitalize }}</p>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="panel-footer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <button id="couchFullscreen" type="button" class="btn btn-primary hidden" data-toggle="modal" data-target=".bs-example-modal-lg">Fullscreen</button>
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <img  src="data:image/png;base64,{{couch.foto}}" style="height: 900px; width: 900px;"/>
                     </div>
                 </div>
             </div>

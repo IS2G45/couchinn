@@ -36,11 +36,8 @@ class ErrorHandlerController {
      * Pagina de acceso denegado
      */
     public function accessDeniedPageAction() {
-        $view = new CouchView();
-        return $view->renderNew(array(
-                    "tipos" => $tipos,
-                    "provincias" => $provincias
-        ));
+        $view = new ErrorHandlerView();
+        return $view->renderAcccesDenied();
     }
 
 }

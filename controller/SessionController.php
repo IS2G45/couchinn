@@ -1,45 +1,151 @@
 <?php
 
-class Session {
+require_once(PATH_VIEW . 'ErrorHandlerView.php');
+require_once(PATH_MODEL . 'UsuarioModel.php');
 
-    static function init() {
+class SessionController {
+
+    private static $instance;
+
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * 
+     */
+    public function initAction($idUsuario) {
         @session_start();
+        $session = SessionController::getInstance();
+        $usuarioModel = UsuarioModel::getInstance();
+        $usuario = $usuarioModel->getById($idUsuario);
+        $session->setValueAction("LOGUEADO", TRUE);
+        $session->setValueAction("USER_ID", $usuario['idUsuario']);
+        $session->setValueAction("ROL", $usuario['tipo']);
+        $session->setValueAction("NOMBRE", $usuario['nombre']);
+        $session->setValueAction("APELLIDO", $usuario['apellido']);
+        $session->setValueAction("EMAIL", $usuario['email']);
+        return $usuarioModel->updateUsuario($usuario['idUsuario'], array(
+                    "identificador" => $session->couchinnHash($usuario['email'])
+        ));
+    }
+    
+    /**
+     * 
+     */
+    public function couchinnHash($str) {
+        return hash('sha512', $str);
     }
 
-    static function destroy() {
+    /**
+     * 
+     */
+    private function generateRandomToken() {
+        return $this->couchinnHash((string) rand(1, 99999));
+    }
+
+    /**
+     * 
+     */
+    /*
+      private function setCookie($identificador, $token) {
+      setcookie("COUCHINN_TOKEN", $token, time() + 60 * 60 * 24 * 30);
+      setcookie("COUCHINN_ID", $identificador, time() + 60 * 60 * 24 * 30);
+      } */
+
+    /**
+     * 
+     */
+    private function renew() {
+        $usuarioModel = UsuarioModel::getInstance();
+        $usuario = $usuarioModel->getByIdToken(array(
+            "identificador" => $_COOKIE["COUCHINN_ID"],
+            "token" => $_COOKIE["COUCHINN_TOKEN"]
+        ));
+        if ($usuario) {
+            @session_start();
+            $session = SessionController::getInstance();
+            $session->setValueAction("LOGUEADO", TRUE);
+            $session->setValueAction("USER_ID", $usuario['idUsuario']);
+            $session->setValueAction("ROL", $usuario['tipo']);
+            $session->setValueAction("NOMBRE", $usuario['nombre']);
+            $session->setValueAction("APELLIDO", $usuario['apellido']);
+            $session->setValueAction("EMAIL", $usuario['email']);
+            $newToken = $session->generateRandomToken();
+            setcookie("COUCHINN_TOKEN", $newToken, time() + 60 * 60 * 24 * 30);
+            setcookie("COUCHINN_ID", $usuario['identificador'], time() + 60 * 60 * 24 * 30);
+            $usuarioModel->updateUsuario($usuario["idUsuario"], array(
+                "token" => $newToken,
+                "identificador" => $_COOKIE["COUCHINN_ID"]
+            ));
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * 
+     */
+    public function loginAction($email, $password, $rememberme = FALSE) {
+        $session = SessionController::getInstance();
+        $usuarioModel = UsuarioModel::getInstance();
+        $usuario = $usuarioModel->getUsuario(array(
+            "email" => $email,
+            "password" => $session->couchinnHash($password) //encripta la contraseña para su cotejamiento en la BD
+        ));
+        if ($usuario) {//Se encontro el usuario registrado en el sistema
+            @session_start();
+            if ($rememberme) {
+                $token = $session->generateRandomToken();
+                setcookie("COUCHINN_TOKEN", $token, time() + 60 * 60 * 24 * 30);
+                setcookie("COUCHINN_ID", $usuario['identificador'], time() + 60 * 60 * 24 * 30);
+                $usuarioModel->updateUsuario($usuario["idUsuario"], array(
+                    "token" => $token
+                ));
+            }
+            $session->initAction($usuario["idUsuario"]);
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * 
+     */
+    public function logoutAction() {
+        session_start();
         session_destroy();
+        UsuarioModel::getInstance()->updateUsuario($_SESSION['USER_ID'], array(
+            "token" => "NO_TOKEN"
+        ));
+        return TRUE;
     }
 
-    static function getValue($var) {
+    /**
+     * 
+     */
+    private function getValueAction($var) {
         return ($_SESSION[$var]);
     }
 
-    static function setValue($var, $val) {
+    /**
+     * 
+     */
+    private function setValueAction($var, $val) {
         $_SESSION[$var] = $val;
     }
 
-    static function getRol() {
+    /**
+     * 
+     */
+    private function getRolAction() {
         if (sizeof($_SESSION) > 0 && $_SESSION['ROL'] != '') {
             return $_SESSION['ROL'];
-        } else {
-            return false;
-        }
-    }
-
-    static function unsetValue($var) {
-        if (isset($_SESSION[$var])) {
-            unset($_SESSION[$var]);
-        }
-    }
-
-    static function getSession() {
-        return $_SESSION;
-    }
-
-    static function exist() {
-        Session::init();
-        if (sizeof($_SESSION) > 0) {
-            return true;
         } else {
             return false;
         }
@@ -48,27 +154,29 @@ class Session {
     /**
      * 
      */
-    static function tieneAcceso($roles) {
-        Session::init();
-        //Si no hay session creada o no esta bien definida con el rol cargado se dirige a una pantalla de error
-        if (!(Session::exist() && Session::getRol())) {
-            $view = new ErrorPage();
-            return $view->show(array('mensaje' => 'Aceeso denegado', 'urlBack' => ROOT_URL . "index.php?action=login"));
-        }
-        $rolePerteneciente = Session::getRol();
-        $hasrole = false;
-        //se busca en el arreglo de roles si se encuentra el rol del usuario logueado en el sistema
-        foreach ($roles as $role) {
-            if ($role === $rolePerteneciente) {
-                $hasrole = true;
-            }
-        }
-        if (!$hasrole) {
-            //Redirige a la página de error ya que  el usuario logueado no tiene alguno de los roles que se recibió como parámetros
-            $view = new ErrorPage();
-            return $view->show(array('mensaje' => 'Aceeso denegado', 'urlBack' => ROOT_URL . "index.php?action=login"));
+    public function getData() {
+        $session = SessionController::getInstance();
+        return array(
+            "logueado" => $session->getValueAction("LOGUEADO"),
+            "id" => $session->getValueAction("USER_ID"),
+            "nombre" => $session->getValueAction("NOMBRE"),
+            "apellido" => $session->getValueAction("APELLIDO"),
+            "email" => $session->getValueAction("EMAIL"),
+            "tipo" => $session->getValueAction("ROL")
+        );
+    }
+
+    /**
+     * 
+     */
+    public function isLogginAction() {
+        @session_start();
+        if ($_SESSION["LOGUEADO"] == TRUE) {
+            return TRUE;
+        } elseif (isset($_COOKIE["COUCHINN_ID"]) && isset($_COOKIE["COUCHINN_TOKEN"])) {//Se verifica si existe las cookies del sistema  
+            return $this->renew(); //Crea una session recordando datos de acceso
         } else {
-            return true;
+            return FALSE;
         }
     }
 

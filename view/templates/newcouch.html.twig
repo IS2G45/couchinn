@@ -48,7 +48,7 @@
                                 $("#imagePreview").css("background-image", "none");
 
                                 //confirmacion de exito
-                                swal("Felicitaciones!", "Tu Couch fue registrado exitosamente!", "success");
+                                swal("Felicitaciones!", "Tu Couch fue registrado exitosamente! id="+data.id, "success");
                             }
                         });
                 event.preventDefault();
@@ -63,10 +63,14 @@
                     data: {"id_provincia": $("#newCouchProvincia").val()},
                     beforeSend: function () {
                         $("#newCouchCiudad").html("<option value=''>Cargando...</option>");
+                        $("#ciudadLoading").show();
                     },
                     complete: function (data) {
-                        console.log(data);
-                        $("#newCouchCiudad").html(data.responseText);
+                        setTimeout(function () {
+                            $("#newCouchCiudad").html(data.responseText);
+                            $("#ciudadLoading").hide();
+                        }, 1000);
+
                     }
                 });
 
@@ -95,12 +99,7 @@
     </script>
 {% endblock %}
 
-{% block  headerMenu %}
-    {% include  "userbuttonmenu.html.twig" %}
-{% endblock %}
-
 {% block container %}
-    {% include  "usermenu.html.twig" %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="col-md-3 containerPublicidad">
@@ -150,7 +149,10 @@
                                     </div>
 
                                     <div class="form-group form-group-lg">
-                                        <div class="col-md-9 col-md-offset-3">
+                                        <label for="newCouchLugar" class="col-md-3 control-label">
+                                            <img id="ciudadLoading" src="{{ constant('PATH_URL_IMG') }}loading7.gif" style="height: 25px; background: none" alt="Logo de Couchinn">
+                                        </label>
+                                        <div class="col-md-9">
                                             <select id="newCouchCiudad" class="form-control" name="idCiudad" required="required">
                                                 <option value="">----</option>
                                             </select>

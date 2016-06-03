@@ -1,4 +1,5 @@
 <?php
+
 abstract class PDORepository {
 
     protected function getConnection() {
@@ -12,7 +13,7 @@ abstract class PDORepository {
 
     protected function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC) {
         $connection = $this->getConnection();
-        $connection->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
+        $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $sth = $connection->prepare($sql);
         foreach ($array as $key => $value) {
             $sth->bindValue("$key", $value);
@@ -27,12 +28,16 @@ abstract class PDORepository {
         $filedValues = ':' . implode(', :', array_keys($data));
         $connection = $this->getConnection();
         $sth = $connection->prepare("INSERT INTO $table (`$fieldNames`) VALUES ($filedValues)");
-
         foreach ($data as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
-        return $sth->execute();
+        if ($sth->execute()) {
+            return $connection->lastInsertId();
+        } else {
+            return 0;
+        }
     }
+
     protected function update($table, $data, $id) {
         ksort($data);
         $columnas = array_keys($data);
@@ -45,7 +50,7 @@ abstract class PDORepository {
         foreach ($data as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
-        $sth->bindValue(':id', $id);
+        $sth->bindValue(':id', $id);        
         return $sth->execute();
     }
 

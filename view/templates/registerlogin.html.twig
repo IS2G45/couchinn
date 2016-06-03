@@ -1,11 +1,119 @@
 {% extends "layout.html.twig" %}
 
 {% block otherStylesheet  %}
-    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}register.css" type="text/css" />
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}registerLogin.css" type="text/css" />
+    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
 {% endblock %}
 
 {% block otherJavascripts %}
-    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/carousel.js"></script>
+    <script src="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function recuperarPass() {
+
+        }
+
+        //Manejo de submit via ajax
+        $(document).ready(function () {
+            $('#registerForm').submit(function (event) {
+                // Registro
+                $.ajax({
+                    type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                    url: "{{ constant('PATH_URL') }}register_login.php?action=register", // the url where we want to POST
+                    data: new FormData(this), // our data object
+                    contentType: false,
+                    cache: false,
+                    dataType: 'json',
+                    processData: false
+                })
+                        // using the done promise callback
+                        .done(function (data) {
+                            //Se verifica si hubo error del lado del servidor
+                            if (data.error) {
+                                swal("Error!", "Tu Couch NO fue registrado en el sistema." + data.msj, "error");
+                            } else {
+                                //confirmacion de exito
+                                swal({
+                                    title: "Felicitaciones!",
+                                    text: "Tu Couch fue registrado exitosamente!",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonText: "cerrar",
+                                    closeOnConfirm: false
+                                }, function (isConfirm) {
+                                    if (isConfirm)
+                                        $(location).attr('href', "{{ constant('PATH_URL') }}index.php");
+                                });
+                            }
+                        });
+                event.preventDefault();
+            });
+            //Login Form
+            $('#loginForm').submit(function (event) {
+                // Registro
+                $.ajax({
+                    type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                    url: "{{ constant('PATH_URL') }}register_login.php?action=login", // the url where we want to POST
+                    data: new FormData(this), // our data object
+                    contentType: false,
+                    //cache: false,
+                    dataType: 'json',
+                    processData: false
+                })
+                        // using the done promise callback
+                        .done(function (data) {
+                            //Se verifica si hubo error del lado del servidor
+                            if (data.error) {
+                                swal("Error!", data.msj, "error");
+                            } else {
+                                $(location).attr('href', "{{ constant('PATH_URL') }}index.php");
+                            }
+                        });
+                event.preventDefault();
+            });
+
+
+            //Recuperar Contraseña
+            $("#loginRecuperarPass").on("click", function () {
+                swal({
+                    title: "¿Te olvidaste la contraseña?",
+                    text: "Ingresa tu email registrado:",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Ingresa tu correo electrónico..."
+                },
+                        function (inputValue) {
+                            if (inputValue === false)
+                                return false;
+
+                            if (inputValue === "") {
+                                swal.showInputError("Necesitas ingresar tu email!");
+                                return false;
+                            }
+                            $.ajax({
+                                type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                                url: "{{ constant('PATH_URL') }}register_login.php?action=recovery", // the url where we want to POST
+                                data: {'email': inputValue}, // our data object
+
+                                //cache: false,
+                                dataType: 'json',
+                            })
+                                    // using the done promise callback
+                                    .done(function (data) {
+                                        //Se verifica si hubo error del lado del servidor
+                                        if (data.error) {
+                                            swal.showInputError("ERROR: " + data.msj);
+                                        } else {
+                                            swal("Terminado!", "Te hemos enviado tus datos de acceso al correo: " + inputValue, "success");
+                                        }
+                                    });
+
+                        });
+            });
+        });
+
+    </script>
 {% endblock %}
 {% block  header %}
     <div id="header" class="row">
@@ -13,21 +121,21 @@
             <h2><strong>COUCHINN</strong></h2>
         </div>
         <div class="col-md-4">
-            <form>
+            <form id="loginForm">
                 <div class="form-group form-group-sm col-md-4">
                     <label for="exampleInputEmail1"><small>EMAIL</small></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Correo electrónico">
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Correo electrónico">
                     <div class="checkbox registerSmall">
                         <label>
-                            <input type="checkbox"> <span class="registerSmall">Recordarme</span>
+                            <input type="checkbox" name="recordarme" value="si"> <span class="registerSmall">Recordarme</span>
                         </label>
                     </div>
                 </div>
                 <div class="form-group form-group-sm col-md-4">
                     <label for="exampleInputPassword1"><small>CONTRASE&Ncaron;A</small></label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+                    <input type="password" class="form-control" name="password" placeholder="Contraseña">
                     <div class="col-md-12 registerSmall">
-                        <a href="#" class="registerSmall">Olvidaste tu contraseña?</a>
+                        <a id="loginRecuperarPass" href="#" class="registerSmall">Olvidaste tu contraseña?</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -42,41 +150,33 @@
     <div id="registerContainer" class="row">
         <div class="col-md-4 col-md-offset-2">
             <img class="img-thumbnail img-rounded" src="{{ constant('PATH_URL_IMG') }}register.jpg"  alt="Logo de Couchinn">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h2 class="text-center">¿Todavía no sos miembro Premium?</h2>
-                    <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-lg btn-primary">Unite YA!</button>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-md-3">
             <div class="col-md-11 col-md-offset-1">
                 <h1><strong>Reg&iacute;strate</strong></h1>
-                <form>
+                <form id="registerForm">
                     <div class="form-group form-group-lg row">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="registerNombre" placeholder="Nombre" required="required">
+                            <input type="text" class="form-control" id="registerNombre" placeholder="Nombre" name="nombre" required="required">
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="registerApellido" placeholder="Apellido" required="required">
+                            <input type="text" class="form-control" id="registerApellido" placeholder="Apellido" name="apellido" required="required">
                         </div>
                     </div>
                     <div class="form-group form-group-lg">
-                        <input type="email" class="form-control" id="registerEmail" placeholder="Correo electr&oacute;nico">
+                        <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Correo electr&oacute;nico">
                     </div>
                     <div class="form-group form-group-lg">
-                        <input type="password" class="form-control" id="registerPassword" placeholder="Contraseña">
+                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Contraseña">
                     </div>
                     <div class="form-group form-group-lg">
-                        <input type="password" class="form-control" placeholder="Repetir contraseña">
+                        <input type="password" class="form-control" placeholder="Repetir contraseña" name="confirm">
                     </div>
                     <h4>Fecha de nacimiento</h4>
                     <div class="form-group form-group-lg row">
                         <div class="col-md-3">
-                            <select class="form-control">
-                                <option selected="1" value="0">Día</option>
+                            <select class="form-control" name="nacimiento_dia" required="required">
+                                <option selected="" value="">Día</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -111,8 +211,8 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="form-control">
-                                <option selected="1" value="0">Mes</option>
+                            <select class="form-control" name="nacimiento_mes" required="required">
+                                <option selected="" value="">Mes</option>
                                 <option value="1">Enero</option>
                                 <option value="2">Febrero</option>
                                 <option value="3">Marzo</option>
@@ -128,8 +228,8 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control">
-                                <option selected="1" value="anio">Año</option>
+                            <select class="form-control" name="nacimiento_anio" required="required">
+                                <option selected="" value="">Año</option>
                                 <option value="2016">2016</option>
                                 <option value="2015">2015</option>
                                 <option value="2014">2014</option>
@@ -248,13 +348,13 @@
                     <div class="form-group form-group-lg">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                <input type="radio" name="genero" id="optionsRadios1" value="MASCULINO" required="required">
                                 Hombre
                             </label>
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                <input type="radio" name="genero" id="optionsRadios2" value="FEMENINO" required="required">
                                 Mujer
                             </label>
                         </div>

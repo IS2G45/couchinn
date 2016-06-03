@@ -15,12 +15,12 @@ require_once(PATH_VIEW . 'TwigView.php');
 class ErrorHandlerView extends TwigView {
 
     /**
-     * Muestra la página para crear un nuevo couch
+     * Muestra la página de error al no tener acceso suficiente para visualizar el contenido
      */
     public function renderAcccesDenied($parameters = array()) {
-      //  echo self::getTwig()->render('newcouch.html.twig', $parameters);
+        echo self::getTwig()->render('accessdenied.html.twig');
     }
-    
+
     /**
      * Muestra la página de error al no encotnrar un objeto requerido
      */

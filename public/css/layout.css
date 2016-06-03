@@ -20,6 +20,19 @@ body > div.row{
     color: #6F6E6C;
     text-decoration: none;
 }
+.headerPremium{ 
+    background:  rgba(0, 0, 0, 0) linear-gradient(to right, rgb(218,207,176), white) repeat scroll 0 0 !important;
+}
+#header.headerPremium a{
+    color: black;
+}
+.menuButtonPremium{
+    background-color: rgb(246,243,236) !important;
+}
+#textPremium{
+    color: rgb(150,172,60);
+}
+
 #header a:hover{
     color: #1C85C7;
 }
@@ -83,7 +96,7 @@ div.containerPublicidad  div.panel div.panel-body, div.containerPublicidad  div.
 #userbuttonmenu button{
     border: none;
     font-family: "Lato",sans-serif;
-    color: #6F6E6C;
+    color: #1C85C7;
     text-decoration: none;
     font-size: 1em;
     padding-top: 0px;
@@ -91,7 +104,6 @@ div.containerPublicidad  div.panel div.panel-body, div.containerPublicidad  div.
 #userbuttonmenu button:hover{
     color: #1C85C7;
     background-color: rgb(255,255,255);
-
 }
 
 #userbuttonmenu .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default{

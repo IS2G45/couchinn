@@ -14,6 +14,7 @@
 require_once(PATH_VIEW . 'CouchView.php');
 require_once(PATH_VIEW . 'ErrorHandlerView.php');
 require_once(PATH_MODEL . 'CouchModel.php');
+require_once(PATH_CONTROLLER . 'SessionController.php');
 
 class CouchController {
 
@@ -26,41 +27,62 @@ class CouchController {
         return self::$instance;
     }
 
+    /**
+     * 
+     */
     public function newAction() {
-        //Se obtiene de la BD las provincias
-        $provincias = CouchModel::getInstance()->getProvincias();
-        //Se obtiene de la BD los tipos de Couch Cargados
-        $tipos = CouchModel::getInstance()->getTipos();
+        $session = SessionController::getInstance();
+        if ($session->isLogginAction()) {
+            $dataSession = $session->getData();
+            //Se obtiene de la BD las provincias
+            $provincias = CouchModel::getInstance()->getProvincias();
+            //Se obtiene de la BD los tipos de Couch Cargados
+            $tipos = CouchModel::getInstance()->getTipos();
 
-        //Se renderiza la plantilla pasandole los parámetros necesarios para visualizar la página 
-        $view = new CouchView();
-        return $view->renderNew(array(
-                    "tipos" => $tipos,
-                    "provincias" => $provincias
-        ));
+            //Se renderiza la plantilla pasandole los parámetros necesarios para visualizar la página 
+            $view = new CouchView();
+            return $view->renderNew(array(
+                        "tipos" => $tipos,
+                        "provincias" => $provincias,
+                        "session" => $dataSession
+            ));
+        } else {
+            $view = new ErrorHandlerView();
+            return $view->renderAcccesDenied();
+        }
     }
 
     /**
      * Muestra un couch
      */
     public function showAction() {
-        $couch = CouchModel::getInstance()->getCouchById(array(
-            "idCouch" => $_GET['id']
-        ));
-        if ($couch) {
-            $view = new CouchView();
-            return $view->renderShow($couch);
+        $session = SessionController::getInstance();
+        if ($session->isLogginAction()) {
+            $dataSession = $session->getData();
+            $couch = CouchModel::getInstance()->getCouchById(array(
+                "idCouch" => $_GET['id']
+            ));
+            if ($couch) {
+                $view = new CouchView();
+                return $view->renderShow(array(
+                            "session" => $dataSession,
+                            "couch" => $couch
+                ));
+            } else {
+                //No fue encontrado el couch en la BD
+                $view = new ErrorHandlerView();
+                return $view->renderNotFound();
+            }
         } else {
-            //No fue encontrado el couch en la BD
             $view = new ErrorHandlerView();
-            return $view->renderNotFound();
+            return $view->renderAcccesDenied();
         }
     }
 
     /**
      * Funcion llamada por ajax para retornar las ciudades de una provincia recibida como parámetro
      */
-    public function ajax_getCiudades() {
+    public function ajax_getCiudadesAction() {
         $ciudades = CouchModel::getInstance()->getCiudades(array(
             "id_provincia" => $_POST["id_provincia"]
         ));
@@ -73,9 +95,9 @@ class CouchController {
     /**
      * Función llamada por ajax que verifica los datos provenientes del cliente y de ser los correctos, los persiste en la Base de Datos
      */
-    public function ajax_couchSubmit() {
+    public function ajax_couchSubmitAction() {
         $blob = file_get_contents($_FILES['foto']['tmp_name']);
-        if (!$blob) {
+        if (!$blob) {//Validacion del tamaño de la imagen
             return json_encode(array(
                 "error" => true,
                 "msj" => "Error al cargar la imagen. (tamaño < 8Mb)"
@@ -91,11 +113,15 @@ class CouchController {
             'foto' => $blob,
         ));
         if ($result) {
-            return json_encode(array("error" => false));
+            return json_encode(array(
+                "error" => false,
+                "id" => $result
+            ));
         } else {
             return json_encode(array(
                 "error" => true,
-                "msj" => "Error en la Base de Datos."
+                "info" => var_dump($result)
+                    //"msj" => "Error en la Base de Datos."
             ));
         }
     }

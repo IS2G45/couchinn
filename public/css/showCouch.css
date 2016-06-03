@@ -16,3 +16,14 @@ and open the template in the editor.
     border-radius: 20px;
     border: 0px;
 }
+#imagePreview:hover{
+    cursor: pointer;
+}
+#couchinnsContainer .modal-content{
+    box-shadow: none;
+    background: none;
+    border: none;
+}
+#couchinnsContainer{
+    margin-top: 25px !important;
+}
