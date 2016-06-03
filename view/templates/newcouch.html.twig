@@ -64,7 +64,7 @@
                 $.ajax({
                     method: "POST",
                     url: "{{ constant('ROOT_URL') }}couch.php?action=get_ciudades",
-                    dataType: "text",
+                    dataType: "text",//Ojo con cambiar a json
                     data: {"id_provincia": $("#newCouchProvincia").val()},
                     beforeSend: function () {
                         $("#newCouchCiudad").html("<option value=''>Cargando...</option>");
