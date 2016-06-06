@@ -5,20 +5,22 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class="dropdown-header"><strong>Bienvenido</strong></li>
+            <li class="dropdown-header text-center"><strong>Bienvenido</strong></li>
             <li class="dropdown-header"><strong>{{session.apellido}}  </strong>{{session.nombre}}</li>
             <li role="separator" class="divider"></li>
                 {% if session.tipo == 'ADMINISTRADOR' %}
-                <li class="dropdown-header">USUARIOS</li>
+                 <li><a href="{{ constant('ROOT_URL') }}tipocouch.php"><span class="glyphicon glyphicon-tags"></span> TIPO COUCH</a></li>
+                <!--<li class="dropdown-header">USUARIOS</li>
                 <li><a href="#"><span class="glyphicon glyphicon-plus"></span> NUEVO</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> LISTADO</a></li>
+                <!--<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> LISTADO</a></li> -->
                 <li role="separator" class="divider"></li>
                 {% endif %}
             <li class="dropdown-header">COUCH'S</li>
             <li><a href="{{ constant('ROOT_URL') }}index.php"><span class="glyphicon glyphicon-th-list"></span> COUCH'S</a></li>
+            <li role="separator" class="divider"></li>
             <li class="dropdown-header">MI COUCH</li>
             <li><a href="{{ constant('ROOT_URL') }}couch.php?action=new"><span class="glyphicon glyphicon-plus"></span> NUEVO COUCH</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> MIS COUCH'S</a></li>
+            <!--  <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> MIS COUCH'S</a></li> -->
             <li role="separator" class="divider"></li>
             <!--
             <li class="dropdown-header">RESERVAS</li>
@@ -27,7 +29,7 @@
             <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> ACEPTADAS</a></li>
             <li role="separator" class="divider"></li>
             -->
-            <li><a href="#"><span class="glyphicon glyphicon-cog"></span> MI PERFIL</a></li>
+            <!--<li><a href="#"><span class="glyphicon glyphicon-cog"></span> MI PERFIL</a></li>-->
             <li><a href="{{ constant('ROOT_URL') }}register_login.php?action=logout"><span class="glyphicon glyphicon-log-out"></span> SALIR</a></li>
         </ul>
     </div>

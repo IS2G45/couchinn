@@ -14,16 +14,16 @@
         <group>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/CouchController.php</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/newcouch.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/PrecioPremiumModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/registerlogin.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/couchtemplate.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/PersonaModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/index.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/index.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/PremiumView.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/premium.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/PremiumController.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/premium.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/CouchModel.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/IndexView.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/TipoCouchController.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/TipoCouchView.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/couch.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/IndexController.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/TipoCouchModel.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/PDORepository.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/tipocouch.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/tipocouch.php</file>
         </group>
     </open-files>
 </project-private>

@@ -7,13 +7,13 @@
  */
 
 /**
- * Description of PrecioPremiumModel
+ * Description of PagoModel
  *
  * @author kibunke
  */
 require_once (PATH_MODEL . 'PDORepository.php');
 
-class PrecioPremiumModel extends PDORepository {
+class PagoModel extends PDORepository {
 
     private static $instance;
 
@@ -29,16 +29,8 @@ class PrecioPremiumModel extends PDORepository {
     /**
      * 
      */
-    public function getPrecio() {
-        $result = $this->select("SELECT precio "
-                . "FROM preciopremium "
-                . "WHERE bajaLogica = 0");
-        if (count($result) > 0) {
-            $precio = reset($result);
-            return $precio['precio'];
-        } else {
-            return 0;
-        }
+    public function newPago($parameters) {
+        return $this->insert("pago", $parameters);
     }
 
 }

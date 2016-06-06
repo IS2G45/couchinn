@@ -32,7 +32,7 @@ class SessionController {
                     "identificador" => $session->couchinnHash($usuario['email'])
         ));
     }
-    
+
     /**
      * 
      */
@@ -90,6 +90,31 @@ class SessionController {
     /**
      * 
      */
+    public function refresh() {
+        @session_start();
+        $session = SessionController::getInstance();
+        $usuarioModel = UsuarioModel::getInstance();
+        $usuario = $usuarioModel->getById($session->getValueAction("USER_ID"));
+        if ($usuario) {
+            $session->setValueAction("LOGUEADO", TRUE);
+            $session->setValueAction("USER_ID", $usuario['idUsuario']);
+            $session->setValueAction("ROL", $usuario['tipo']);
+            $session->setValueAction("NOMBRE", $usuario['nombre']);
+            $session->setValueAction("APELLIDO", $usuario['apellido']);
+            $session->setValueAction("EMAIL", $usuario['email']);
+            $newToken = $session->generateRandomToken();
+            $usuarioModel->updateUsuario($usuario["idUsuario"], array(
+                "token" => $newToken
+            ));
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * 
+     */
     public function loginAction($email, $password, $rememberme = FALSE) {
         $session = SessionController::getInstance();
         $usuarioModel = UsuarioModel::getInstance();
@@ -118,8 +143,8 @@ class SessionController {
      * 
      */
     public function logoutAction() {
-        session_start();
-        session_destroy();
+        @session_start();
+        @session_destroy();
         UsuarioModel::getInstance()->updateUsuario($_SESSION['USER_ID'], array(
             "token" => "NO_TOKEN"
         ));
@@ -155,7 +180,7 @@ class SessionController {
      * 
      */
     public function getData() {
-        session_start();
+        @session_start();
         $session = SessionController::getInstance();
         return array(
             "logueado" => $session->getValueAction("LOGUEADO"),

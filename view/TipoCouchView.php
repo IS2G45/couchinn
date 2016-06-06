@@ -7,25 +7,19 @@
  */
 
 /**
- * Description of PremiumView
+ * Description of TipoCouchView
  *
  * @author kibunke
  */
 require_once(PATH_VIEW . 'TwigView.php');
 
-class PremiumView extends TwigView {
+class TipoCouchView extends TwigView {
 
     /**
      * 
      */
     public function renderIndex($parameters = array()) {
-        echo self::getTwig()->render('premium.html.twig', $parameters);
+        echo self::getTwig()->render('tipocouch.html.twig', $parameters);
     }
-    
-    /**
-     * 
-     */
-    public function renderBeneficios($parameters = array()) {
-        echo self::getTwig()->render('premiumbeneficios.html.twig', $parameters);
-    }
+
 }

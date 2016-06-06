@@ -121,7 +121,7 @@ class CouchController {
         } else {
             return json_encode(array(
                 "error" => true,
-                "msj" => "Error en la Base de Datos.".  var_dump($session['id'])
+                "msj" => "Error en la Base de Datos."
             ));
         }
     }

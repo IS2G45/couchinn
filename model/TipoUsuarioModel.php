@@ -27,11 +27,11 @@ class TipoUsuarioModel extends PDORepository {
     /**
      * Inserta un couch en la Base de Datos
      */
-    public function getByNombre($parameters) {
+    public function getByNombre($tipoNombre) {
         $result = $this->select(""
                 . "SELECT  idTipoUsuario, nombreTipo "
                 . "FROM tipousuario "
-                . "WHERE nombreTipo = :nombreTipo AND bajaLogica = 0", $parameters);
+                . "WHERE nombreTipo = :nombreTipo AND bajaLogica = 0", array("nombreTipo"=>$tipoNombre));
         if (count($result) > 0) {
             return reset($result);
         } else {

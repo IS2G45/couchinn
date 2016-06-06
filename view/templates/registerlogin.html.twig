@@ -53,17 +53,17 @@
                     url: "{{ constant('ROOT_URL') }}register_login.php?action=login", // the url where we want to POST
                     data: new FormData(this), // our data object
                     contentType: false,
-                    cache: false,
-                    dataType: 'json',
+                    //cache: false,
+                    // dataType: 'json',
                     processData: false
                 }).done(function (data) {
-                    console.log(data);
+                    // console.log($.JSONdata);
                     //Se verifica si hubo error del lado del servidor
-                    /*if (result.error) {
-                        swal("Error!", result.msj, "error");
+                    if (data.error) {
+                        swal("Error!", data.msj, "error");
                     } else {
-                        //$(location).attr('href', "{{ constant('ROOT_URL') }}index.php");
-                    }*/
+                        $(location).attr('href', "{{ constant('ROOT_URL') }}index.php");
+                    }
                 });
                 event.preventDefault();
             });

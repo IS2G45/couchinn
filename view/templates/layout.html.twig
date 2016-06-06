@@ -35,9 +35,9 @@
                     </div>
                     <div class="col-md-3 botones">
                         {% if session.logueado and session.tipo == 'PREMIUM' %}
-                            <a href="{{ constant('ROOT_URL') }}index.php">BENEFICIOS</a>
+                            <a href="{{ constant('ROOT_URL') }}premium.php?action=beneficios">BENEFICIOS</a>
                         {% else %}
-                            <a href="{{ constant('ROOT_URL') }}premium.php">SE PREMIUM!</a>
+                            <a href="{{ constant('ROOT_URL') }}premium.php?action=join">SE PREMIUM!</a>
                         {% endif %}
                     </div>
                     <div class="col-md-3 botones">

@@ -11,5 +11,25 @@ require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    PremiumController::getInstance()->indexAction();
+    switch ($_GET["action"]) {
+        case 'join':
+            PremiumController::getInstance()->indexAction();
+            break;
+        case 'beneficios':
+            PremiumController::getInstance()->beneficiosAction();
+            break;
+        default:
+            //Se lanza una pagina de error
+            ErrorHandlerController::getInstance()->notFoundAction();
+            break;
+    }
+}
+
+//Se chequea si el requerimiento http es via POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    switch ($_GET["action"]) {
+        case 'join':
+            echo PremiumController::getInstance()->ajax_joinSubmitAction();
+            break;
+    }
 }

@@ -47,20 +47,14 @@ class IndexController {
     /**
      * 
      */
-    public function indexAction() {  
+    public function indexAction() {
         $session = SessionController::getInstance();
         $dataSession = array(
             "logueado" => NULL
         );
-        
-        //return var_dump($_COOKIE['COUCHINN_TOKEN']);
-        
-        
         if ($session->isLogginAction()) {
             $dataSession = $session->getData();
         }
-        
-        
         $result = $this->paginador_process();
         $view = new IndexView();
         return $view->renderIndex(array(
@@ -75,10 +69,18 @@ class IndexController {
      * 
      */
     public function ajax_paginadorAction() {
+        $session = SessionController::getInstance();
+        $dataSession = array(
+            "logueado" => NULL
+        );
+        if ($session->isLogginAction()) {
+            $dataSession = $session->getData();
+        }
         $result = $this->paginador_process($_POST['pagina']);
         $view = new IndexView();
         $data['couchinns'] = $view->renderCouchinns(array(
             "couchs" => $result['couchinns'],
+            "session" => $dataSession
         ));
         $data['paginador'] = $view->renderPaginador(array(
             "paginas" => $result['paginas'],
