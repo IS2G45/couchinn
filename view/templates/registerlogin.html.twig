@@ -21,27 +21,25 @@
                     cache: false,
                     dataType: 'json',
                     processData: false
-                })
-                        // using the done promise callback
-                        .done(function (data) {
-                            //Se verifica si hubo error del lado del servidor
-                            if (data.error) {
-                                swal("Error!", "No se pudo registrar en el Sistema." + data.msj, "error");
-                            } else {
-                                //confirmacion de exito
-                                swal({
-                                    title: "Felicitaciones!",
-                                    text: "Ya estas registrado en Couchinn!",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonText: "cerrar",
-                                    closeOnConfirm: false
-                                }, function (isConfirm) {
-                                    if (isConfirm)
-                                        $(location).attr('href', "{{ constant('ROOT_URL') }}index.php");
-                                });
-                            }
+                }).done(function (data) {
+                    //Se verifica si hubo error del lado del servidor
+                    if (data.error) {
+                        swal("Error!", "No se pudo registrar en el Sistema." + data.msj, "error");
+                    } else {
+                        //confirmacion de exito
+                        swal({
+                            title: "Felicitaciones!",
+                            text: "Ya estas registrado en Couchinn!",
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonText: "cerrar",
+                            closeOnConfirm: false
+                        }, function (isConfirm) {
+                            if (isConfirm)
+                                $(location).attr('href', "{{ constant('ROOT_URL') }}index.php");
                         });
+                    }
+                });
                 event.preventDefault();
             });
 
@@ -53,11 +51,9 @@
                     url: "{{ constant('ROOT_URL') }}register_login.php?action=login", // the url where we want to POST
                     data: new FormData(this), // our data object
                     contentType: false,
-                    //cache: false,
-                    // dataType: 'json',
+                    dataType: 'json',
                     processData: false
                 }).done(function (data) {
-                    // console.log($.JSONdata);
                     //Se verifica si hubo error del lado del servidor
                     if (data.error) {
                         swal("Error!", data.msj, "error");
@@ -67,8 +63,6 @@
                 });
                 event.preventDefault();
             });
-
-
             //Recuperar Contraseña
             $("#loginRecuperarPass").on("click", function () {
                 swal({
@@ -79,32 +73,28 @@
                     closeOnConfirm: false,
                     animation: "slide-from-top",
                     inputPlaceholder: "Ingresa tu correo electrónico..."
-                },
-                        function (inputValue) {
-                            if (inputValue === false)
-                                return false;
-                            if (inputValue === "") {
-                                swal.showInputError("Necesitas ingresar tu email!");
-                                return false;
-                            }
-                            $.ajax({
-                                type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
-                                url: "{{ constant('ROOT_URL') }}register_login.php?action=recovery", // the url where we want to POST
-                                data: {'email': inputValue}, // our data object
-                                //cache: false,
-                                dataType: 'json'
-                            })
-                                    // using the done promise callback
-                                    .done(function (data) {
-                                        //Se verifica si hubo error del lado del servidor
-                                        if (data.error) {
-                                            swal.showInputError("ERROR: " + data.msj);
-                                        } else {
-                                            swal("Terminado!", "Te hemos enviado tus datos de acceso al correo: " + inputValue, "success");
-                                        }
-                                    });
+                }, function (inputValue) {
+                    if (inputValue === false)
+                        return false;
+                    if (inputValue === "") {
+                        swal.showInputError("Necesitas ingresar tu email!");
+                        return false;
+                    }
+                    $.ajax({
+                        type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                        url: "{{ constant('ROOT_URL') }}register_login.php?action=recovery", // the url where we want to POST
+                        data: {'email': inputValue}, // our data object
+                        dataType: 'json'
+                    }).done(function (data) {
+                        //Se verifica si hubo error del lado del servidor
+                        if (data.error) {
+                            swal.showInputError("ERROR: " + data.msj);
+                        } else {
+                            swal("Terminado!", "Te hemos enviado tus datos de acceso al correo: " + inputValue, "success");
+                        }
+                    });
 
-                        });
+                });
             });
         });
 
