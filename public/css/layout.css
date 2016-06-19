@@ -29,8 +29,8 @@ body > div.row{
 .menuButtonPremium{
     background-color: rgb(246,243,236) !important;
 }
-#textPremium{
-    color: rgb(150,172,60);
+#textPremium, #textAdmin{
+    color: rgb(238,238,238);
 }
 
 #header a:hover{
@@ -137,9 +137,7 @@ Modal Loading....
     height: 180px;
     margin-top: 50%;
 }
-.sweet-alert button{
-    background-color: rgb(150,172,60) !important;
-}
+
 /******************************************************************************/
 
 div.panel div.panel-heading{

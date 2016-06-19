@@ -33,4 +33,29 @@ class PersonaModel extends PDORepository {
         return $this->insert("persona", $parameters);
     }
 
+    /**
+     * Esta funcion es creada solamente porque las BD no tienen como nombre del id de la tabla 'id'
+     */
+    private function updateP($table, $data, $id) {
+        ksort($data);
+        $columnas = array_keys($data);
+        foreach ($columnas as $key => $value) {
+            $columnas[$key] = $value . ' = :' . $value;
+        }
+        $str = implode(' , ', array_values($columnas));
+        $connection = $this->getConnection();
+        $sth = $connection->prepare("UPDATE $table SET $str WHERE idPersona = :id");
+        foreach ($data as $key => $value) {
+            $sth->bindValue(":$key", $value);
+        }
+        $sth->bindValue(':id', $id);
+        return $sth->execute();
+    }
+
+    /**
+     * 
+     */
+    public function editPersona($id, $data) {
+        return $this->updateP("persona", $data, $id);
+    }
 }

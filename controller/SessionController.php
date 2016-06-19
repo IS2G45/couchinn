@@ -50,15 +50,6 @@ class SessionController {
     /**
      * 
      */
-    /*
-      private function setCookie($identificador, $token) {
-      setcookie("COUCHINN_TOKEN", $token, time() + 60 * 60 * 24 * 30);
-      setcookie("COUCHINN_ID", $identificador, time() + 60 * 60 * 24 * 30);
-      } */
-
-    /**
-     * 
-     */
     private function renew() {
         $usuarioModel = UsuarioModel::getInstance();
         $usuario = $usuarioModel->getByIdToken(array(
@@ -197,7 +188,7 @@ class SessionController {
      */
     public function isLogginAction() {
         @session_start();
-        if ($_SESSION["LOGUEADO"] == TRUE) {
+        if (isset($_SESSION["LOGUEADO"]) && $_SESSION["LOGUEADO"] == TRUE) {
             return TRUE;
         } elseif (isset($_COOKIE["COUCHINN_ID"]) && isset($_COOKIE["COUCHINN_TOKEN"])) {//Se verifica si existe las cookies del sistema  
             return $this->renew(); //Crea una session recordando datos de acceso

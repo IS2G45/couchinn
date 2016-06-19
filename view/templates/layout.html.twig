@@ -54,8 +54,15 @@
                     {% endblock %}
                 </div>
                 {% if session.logueado and session.tipo == 'PREMIUM' %}
-                    <div id="textPremium" class="col-md-2 text-center "><h2><strong>PREMIUM</strong></h2></div>
-                            {% endif %}
+                    <div id="textPremium" class="col-md-2 text-center ">
+                        <h2><strong>PREMIUM</strong></h2>
+                    </div>
+                {% endif %}
+                {% if session.logueado and session.tipo == 'ADMINISTRADOR' %}
+                    <div id="textAdmin" class="col-md-2 text-center ">
+                        <h2><strong>ADMINISTRADOR</strong></h2>
+                    </div>
+                {% endif %}
             </div>
         {% endblock %}
         {% if session.logueado  %}

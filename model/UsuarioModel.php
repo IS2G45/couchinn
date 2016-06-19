@@ -38,7 +38,7 @@ class UsuarioModel extends PDORepository {
      */
     public function getByIdToken($parameters) {
         $result = $this->select(""
-                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, u.identificador AS identificador, u.token AS token, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
+                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, p.telefono AS telefono, p.idPersona AS idPersona, p.direccion AS direccion, p.fechaNacimiento AS fechaNacimiento, u.identificador AS identificador, u.token AS token, p.genero AS genero, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
                 . "FROM usuario AS u "
                 . "INNER JOIN tipousuario AS tu ON tu.idTipoUsuario = u.idTipoUsuario "
                 . "INNER JOIN persona AS p ON p.idPersona = u.idPersona "
@@ -66,7 +66,7 @@ class UsuarioModel extends PDORepository {
      */
     public function getUsuario($parameters) {
         $result = $this->select(""
-                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, u.identificador AS identificador, u.token AS token, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
+                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, u.identificador AS identificador, p.idPersona AS idPersona, p.telefono AS telefono, p.direccion AS direccion, p.fechaNacimiento AS fechaNacimiento, u.token AS token, p.genero AS genero, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
                 . "FROM usuario AS u "
                 . "INNER JOIN tipousuario AS tu ON tu.idTipoUsuario = u.idTipoUsuario "
                 . "INNER JOIN persona AS p ON p.idPersona = u.idPersona "
@@ -83,7 +83,7 @@ class UsuarioModel extends PDORepository {
      */
     public function getById($idUsuario) {
         $result = $this->select(""
-                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, u.identificador AS identificador, u.token AS token, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
+                . "SELECT u.idUsuario AS idUsuario, u.email AS email, u.password AS password, u.identificador AS identificador, p.idPersona AS idPersona, p.fechaNacimiento AS fechaNacimiento, u.token AS token, p.telefono AS telefono, p.direccion AS direccion,  p.genero AS genero, p.nombre AS nombre, p.apellido AS apellido, tu.nombreTipo AS tipo "
                 . "FROM usuario AS u "
                 . "INNER JOIN tipousuario AS tu ON tu.idTipoUsuario = u.idTipoUsuario "
                 . "INNER JOIN persona AS p ON p.idPersona = u.idPersona "
@@ -95,6 +95,9 @@ class UsuarioModel extends PDORepository {
         }
     }
 
+    /**
+     * Esta funcion es creada solamente porque las BD no tienen como nombre del id de la tabla 'id'
+     */
     private function updateU($table, $data, $id) {
         ksort($data);
         $columnas = array_keys($data);
@@ -108,13 +111,9 @@ class UsuarioModel extends PDORepository {
             $sth->bindValue(":$key", $value);
         }
         $sth->bindValue(':id', $id);
-        
-        //return $sth->debugDumpParams();
-        
-        
         return $sth->execute();
     }
-    
+
     /**
      * 
      */

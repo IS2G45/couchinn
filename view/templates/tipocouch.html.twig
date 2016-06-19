@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block otherStylesheet  %}
-    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}newCouch.css" type="text/css" />
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}tipocouch.css" type="text/css" />
     <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
 {% endblock %}
 
@@ -201,7 +201,7 @@
             <div class="col-md-3 containerPublicidad">
                 {% include  "publicidad_4.html.twig" %}
             </div>
-            <div id="newCouchContainer" class="col-md-9">
+            <div id="tipoCouchContainer" class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
@@ -209,7 +209,9 @@
                     <div class="panel-body">
                         <div class="page-header">
                             <h1>Tipo Couch <small>- listado</small></h1>
-                            <div class="text-right"><a class="btn btn-primary btn-xs " onclick="newTipo();" href="#" role="button">NUEVO</a></div>
+                            <div class="text-right">
+                                <a class="btn btn-primary btn-xs " onclick="newTipo();" href="#" role="button"><span class="glyphicon glyphicon-tags"></span>- NUEVO</a>
+                            </div>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
@@ -221,8 +223,8 @@
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
                                     <td>{{tipo.nombre}}</td>
-                                    <td class="text-center">
-                                        <a href="#" onclick="edit({{tipo.idTipoCouch}}, '{{tipo.nombre}}');">
+                                    <td class="text-center tipoCouchAccion">
+                                        <a href="#"  onclick="edit({{tipo.idTipoCouch}}, '{{tipo.nombre}}');">
                                             <span class="glyphicon glyphicon-edit"></span>
                                         </a>
                                         <a href="#">

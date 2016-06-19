@@ -29,7 +29,7 @@
             <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> ACEPTADAS</a></li>
             <li role="separator" class="divider"></li>
             -->
-            <!--<li><a href="#"><span class="glyphicon glyphicon-cog"></span> MI PERFIL</a></li>-->
+            <li><a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{session.id}}"><span class="glyphicon glyphicon-cog"></span> MI PERFIL</a></li>
             <li><a href="{{ constant('ROOT_URL') }}register_login.php?action=logout"><span class="glyphicon glyphicon-log-out"></span> SALIR</a></li>
         </ul>
     </div>
