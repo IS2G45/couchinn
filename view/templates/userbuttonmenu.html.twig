@@ -9,7 +9,7 @@
             <li class="dropdown-header"><strong>{{session.apellido}}  </strong>{{session.nombre}}</li>
             <li role="separator" class="divider"></li>
                 {% if session.tipo == 'ADMINISTRADOR' %}
-                 <li><a href="{{ constant('ROOT_URL') }}tipocouch.php"><span class="glyphicon glyphicon-tags"></span> TIPO COUCH</a></li>
+                <li><a href="{{ constant('ROOT_URL') }}tipocouch.php"><span class="glyphicon glyphicon-tags"></span> TIPO COUCH</a></li>
                 <!--<li class="dropdown-header">USUARIOS</li>
                 <li><a href="#"><span class="glyphicon glyphicon-plus"></span> NUEVO</a></li>
                 <!--<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> LISTADO</a></li> -->
@@ -21,6 +21,10 @@
             <li class="dropdown-header">MI COUCH</li>
             <li><a href="{{ constant('ROOT_URL') }}couch.php?action=new"><span class="glyphicon glyphicon-plus"></span> NUEVO COUCH</a></li>
             <!--  <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> MIS COUCH'S</a></li> -->
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">CONSULTAS</li>
+            <li><a href="{{ constant('ROOT_URL') }}comentario.php?action=list_answers"><span class="glyphicon glyphicon-envelope"></span> POR RESPONDER</a></li>
+            <li><a href="{{ constant('ROOT_URL') }}comentario.php?action=list_questions"><span class="glyphicon glyphicon-envelope"></span> REALIZADAS</a></li>
             <li role="separator" class="divider"></li>
             <!--
             <li class="dropdown-header">RESERVAS</li>

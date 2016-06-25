@@ -38,7 +38,7 @@ class CouchModel extends PDORepository {
      */
     public function getCouchById($parameters) {
         $result = $this->select(""
-                . "SELECT couch.titulo, couch.descripcion, couch.capacidad, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, c.nombre AS ciudad "
+                . "SELECT couch.idCouch AS idCouch, couch.titulo, couch.descripcion, couch.capacidad, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, c.nombre AS ciudad "
                 . "FROM couch "
                 . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
                 . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "

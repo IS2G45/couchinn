@@ -104,3 +104,7 @@ div.panel.couchTipo div.panel-footer{
     padding-bottom: 60px;
     padding-top: 60px;
 }
+#paginadorLoading{
+    margin: 50px;
+    display: none;
+}

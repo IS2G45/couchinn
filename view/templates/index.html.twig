@@ -11,12 +11,17 @@
         function goTo(pagina) {
             $("#indexCouchinns").html("");
             $("#indexCouchLoading").show();
-
+            $("#indexPaginador").hide();
             $.post("{{ constant('ROOT_URL') }}index.php?action=paginator", {"pagina": pagina}, null, "json")
                     .done(function (data, textStatus, jqXHR) {
-                        $("#indexCouchLoading").hide();
-                        $("#indexCouchinns").html(data.couchinns);
-                        $("#indexPaginador nav ul:first").html(data.paginador);
+                        setTimeout(function () {
+                            $("#indexCouchLoading").hide();
+                            $("#indexCouchinns").html(data.couchinns);
+                            $("#indexPaginador nav ul:first").html(data.paginador);
+                            $("#indexPaginador").show();
+                            $("#newCouchCiudad").html(data.responseText);
+                            $("#ciudadLoading").hide();
+                        }, 500);
                     });
         }
     </script>
@@ -28,7 +33,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="col-md-9">
                 <div id="indexCouchLoading" class="col-md-12 text-center">
-                    <img src="{{ constant('PATH_URL_IMG') }}loading6.gif" style="height: 150px;" alt="Cargando">
+                    <img src="{{ constant('PATH_URL_IMG') }}loading6.gif" style="height: 170px;" alt="Cargando">
                 </div>
                 <div id="indexCouchinns">
                     {% for couch in couchs %}

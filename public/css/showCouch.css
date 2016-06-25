@@ -27,3 +27,35 @@ and open the template in the editor.
 #couchinnsContainer{
     margin-top: 25px !important;
 }
+#consultasConteiner{
+    max-height: 920px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+#consultasConteiner blockquote{
+    margin-bottom: 0px;
+}
+
+.panelComentario div.panel-body{
+    padding: 0px;
+}
+.panelComentario div.panel-body > div:last-child{
+    margin-bottom: 0px;
+}
+.panelComentario .alert-warning, .panelComentario .alert-success{
+    border-radius: 20px;
+    padding: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.panelComentario .alert-warning blockquote, .panelComentario .alert-success blockquote{
+    border-color: rgb(154,205,50);
+}
+.panelComentario .alert-warning blockquote{
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.panelComentario .alert-success blockquote{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

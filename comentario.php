@@ -4,26 +4,31 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * ini_set('display_startup_errors', 1);
+  ini_set('display_errors', 1);
+  error_reporting(-1);
  */
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 
 require_once('./config/config.php');
-require_once(PATH_CONTROLLER . 'CouchController.php');
 require_once(PATH_CONTROLLER . 'ComentarioController.php');
+require_once(PATH_CONTROLLER . 'SessionController.php');
 require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     switch ($_GET["action"]) {
-        case 'new':
-            CouchController::getInstance()->newAction();
+        case 'list_questions':
+            ComentarioController::getInstance()->listadoPreguntasAction();
             break;
-        case 'show':
-            if (isset($_GET["id"])) {
-                CouchController::getInstance()->showAction();
-            } else {
-                //Se lanza una pagina de error
-                ErrorHandlerController::getInstance()->notFoundAction();
-            }
+        case 'list_answers':
+            ComentarioController::getInstance()->listadoRespuestasAction();
+            break;
+        case 'get_queries':
+            echo ComentarioController::getInstance()->ajax_getQueriesAction();
             break;
         default:
             //Se lanza una pagina de error
@@ -35,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //Se chequea si el requerimiento http es via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
-        case 'get_ciudades':
-            echo CouchController::getInstance()->ajax_getCiudadesAction();
+        case 'sent_query':
+            echo ComentarioController::getInstance()->ajax_sentQueryAction();
             break;
-        case 'couch_submit':
-            echo CouchController::getInstance()->ajax_couchSubmitAction();
+        case 'send_response':
+            echo ComentarioController::getInstance()->ajax_sentResponseAction();
             break;
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();
