@@ -20,7 +20,7 @@ class CouchView extends TwigView {
     public function renderNew($parameters = array()) {
         echo self::getTwig()->render('newcouch.html.twig', $parameters);
     }
-    
+
     /**
      * Muestra la página del detalle de una couch
      */
@@ -33,6 +33,21 @@ class CouchView extends TwigView {
      */
     public function renderCiudades($parameters = array()) {
         echo self::getTwig()->render('ciudades.html.twig', $parameters);
+    }
+
+    /**
+     * Muestra listado de todos los couchs activos del usuario dueño.
+     * @param array $parameters
+     */
+    public function renderShowUserCouchs($parameters = array()) {
+        echo self::getTwig()->render('listadousercouchs.html.twig', $parameters);
+    }
+
+    /**
+     * 
+     */
+    public function renderEdit($parameters = array()) {
+        echo self::getTwig()->render('modificarcouch.html.twig', $parameters);
     }
 
 }

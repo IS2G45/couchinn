@@ -12,24 +12,18 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/listadousercouchs.html.twig</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/userbuttonmenu.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/newcouch.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/ComentarioController.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/public/css/showCouch.css</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/couch.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/usermenu.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/UsuarioView.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/comentario.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/comentariosListadoPreguntas.html.twig</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/showcouch.html.twig</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/CouchController.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/comentarios.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/newcouch.html.twig</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/model/CouchModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/ComentarioView.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/usuario.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/usuario_edit.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/UsuarioModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/ComentarioModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/SessionController.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/CouchView.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/modificarcouch.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/comentariosListadoRespuestas.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/usermenu.html.twig</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/public/css/newCouch.css</file>
         </group>
     </open-files>
 </project-private>

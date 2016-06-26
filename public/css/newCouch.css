@@ -11,10 +11,10 @@ and open the template in the editor.
     box-shadow: 0  0 3px rgba(255,0,0,0.5); 
 }
 
-#imagePreview:hover{
+#imagePreview:hover, #imageEditPreview:hover{
     cursor: pointer;
 }
-#imagePreview {
+#imagePreview{
     width: 300px;
     height: 300px;
     border-radius: 45px;
@@ -52,4 +52,35 @@ form > div.row{
 }
 #ciudadLoading{
     display: none;
+}
+table a.despublicarButton{
+    background-color: #fe99a6;
+    color: black;
+}
+table td.online{
+    background-color: rgb(150,172,60);
+    color: whitesmoke;
+}
+
+table td.offline{
+    background-color: #fe99a6;
+}
+
+
+#imageEditPreview img{
+    height: 286px;
+    width: 286px;
+    border-radius: 30px;
+}
+#imageEditPreview{
+    width: 300px;
+    height: 300px;
+    border-radius: 45px;
+    margin-left: 25px;
+    border: 8px dashed rgb(150,172,60);
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+    padding: 0px;
 }

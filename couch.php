@@ -25,6 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 ErrorHandlerController::getInstance()->notFoundAction();
             }
             break;
+        //Agregado por Elizabeth
+        case 'listado_couchs':
+            CouchController::getInstance()->showUserCouchs();
+            break;
+        case 'edit_couch':
+            CouchController::getInstance()->editCouchAction();
+            break;
+        //Agregado por Elizabeth
         default:
             //Se lanza una pagina de error
             ErrorHandlerController::getInstance()->notFoundAction();
@@ -41,6 +49,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'couch_submit':
             echo CouchController::getInstance()->ajax_couchSubmitAction();
             break;
+        //Agregado por Elizabeth
+        case 'despublicar':
+            echo CouchController::getInstance()->ajax_despublicarAction();
+            break;
+        case 'publicar':
+            echo CouchController::getInstance()->ajax_publicarAction();
+            break;
+        case 'edit_submit':
+            echo CouchController::getInstance()->ajax_editCouchSubmitAction();
+            break;
+        //Agregado por Elizabeth
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();
             break;
