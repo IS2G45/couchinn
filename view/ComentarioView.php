@@ -11,6 +11,8 @@
  *
  * @author kibunke
  */
+require_once(PATH_VIEW . 'TwigView.php');
+
 class ComentarioView extends TwigView {
 
     /**
@@ -19,14 +21,14 @@ class ComentarioView extends TwigView {
     public function renderShow($parameters = array()) {
         echo self::getTwig()->render('comentarios.html.twig', $parameters);
     }
-    
+
     /**
      * 
      */
     public function renderListRespuestas($parameters = array()) {
         echo self::getTwig()->render('comentariosListadoRespuestas.html.twig', $parameters);
     }
-    
+
     /**
      * 
      */

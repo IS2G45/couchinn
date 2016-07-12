@@ -16,7 +16,7 @@
                 <div class="col-md-11 col-md-offset-1 alert alert-success" role="alert">
                     <blockquote class="blockquote-reverse">
                         <p><span class="glyphicon glyphicon-envelope"></span> {{ comentario.respuesta | capitalize }}</p>
-                        <footer> <cite title="Usuario"><strong>PROPIETARIO/A</strong> </cite></footer>
+                        <footer> <cite title="Usuario"><strong>{{propietario.apellido |upper }} {{propietario.nombre |capitalize }}</strong> </cite></footer>
                     </blockquote>
                 </div>
             {% endif %}

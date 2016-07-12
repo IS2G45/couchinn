@@ -6,7 +6,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li class="dropdown-header text-center"><strong>Bienvenido</strong></li>
-            <li class="dropdown-header"><strong>{{session.apellido}}  </strong>{{session.nombre}}</li>
+            <li class="dropdown-header">{{session.apellido}} {{session.nombre}} </li>
             <li role="separator" class="divider"></li>
                 {% if session.tipo == 'ADMINISTRADOR' %}
                 <li><a href="{{ constant('ROOT_URL') }}tipocouch.php"><span class="glyphicon glyphicon-tags"></span> TIPO COUCH</a></li>
@@ -26,13 +26,10 @@
             <li><a href="{{ constant('ROOT_URL') }}comentario.php?action=list_answers"><span class="glyphicon glyphicon-envelope"></span> POR RESPONDER</a></li>
             <li><a href="{{ constant('ROOT_URL') }}comentario.php?action=list_questions"><span class="glyphicon glyphicon-envelope"></span> REALIZADAS</a></li>
             <li role="separator" class="divider"></li>
-            <!--
             <li class="dropdown-header">RESERVAS</li>
-            <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> REALIZADAS</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> PENDIENTES</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-th-list"></span> ACEPTADAS</a></li>
+            <li><a href="{{ constant('ROOT_URL') }}reserva.php?action=list_realizadas"><span class="glyphicon glyphicon-paste"></span> REALIZADAS</a></li>
+            <li><a href="{{ constant('ROOT_URL') }}reserva.php?action=list_recibidas"><span class="glyphicon glyphicon-copy"></span> RECIBIDAS</a></li>
             <li role="separator" class="divider"></li>
-            -->
             <li><a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{session.id}}"><span class="glyphicon glyphicon-cog"></span> MI PERFIL</a></li>
             <li><a href="{{ constant('ROOT_URL') }}register_login.php?action=logout"><span class="glyphicon glyphicon-log-out"></span> SALIR</a></li>
         </ul>

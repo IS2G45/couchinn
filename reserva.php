@@ -8,23 +8,23 @@
   ini_set('display_errors', 1);
   error_reporting(-1);
  */
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 
 require_once('./config/config.php');
-require_once(PATH_CONTROLLER . 'ComentarioController.php');
-require_once(PATH_CONTROLLER . 'SessionController.php');
+require_once(PATH_CONTROLLER . 'ReservaController.php');
 require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     switch ($_GET["action"]) {
-        case 'list_questions':
-            ComentarioController::getInstance()->listadoPreguntasAction();
+        case 'list_realizadas':
+            ReservaController::getInstance()->listadoRealizadasAction();
             break;
-        case 'list_answers':
-            ComentarioController::getInstance()->listadoRespuestasAction();
-            break;
-        case 'get_queries':
-            echo ComentarioController::getInstance()->ajax_getQueriesAction();
+        case 'list_recibidas':
+            ReservaController::getInstance()->listadoRecibidasAction();
             break;
         default:
             //Se lanza una pagina de error
@@ -36,11 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //Se chequea si el requerimiento http es via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
-        case 'sent_query':
-            echo ComentarioController::getInstance()->ajax_sentQueryAction();
+        case 'sent_reserva':
+            echo ReservaController::getInstance()->ajax_sentReservaAction();
             break;
-        case 'send_response':
-            echo ComentarioController::getInstance()->ajax_sentResponseAction();
+        case 'aceptar_reserva':
+            echo ReservaController::getInstance()->ajax_aceptarReservaAction();
+            break;
+        case 'rechazar_reserva':
+            echo ReservaController::getInstance()->ajax_rechazarReservaAction();
             break;
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();

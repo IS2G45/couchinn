@@ -1,0 +1,32 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29/06/2016, 20:54:48
+    Author     : kibunke
+*/
+
+td.estadoPendiente{
+    color: black;
+    background-color: yellow;
+}
+td.estadoRechazada{
+    color: whitesmoke;
+    background-color: red;
+}
+td.estadoAceptada{
+    color: black;
+    background-color: #70e4fe;
+}
+a.reservaRechazarButton{
+    color: red;
+}
+a.reservaAceptarButton{
+    color: yellowgreen;
+}
+#reservaContainer  div.panel{
+    border-radius: 20px;
+    border: 0px;
+}

@@ -16,6 +16,7 @@ require_once(PATH_VIEW . 'ErrorHandlerView.php');
 require_once(PATH_VIEW . 'ComentarioView.php');
 require_once(PATH_MODEL . 'CouchModel.php');
 require_once(PATH_MODEL . 'ComentarioModel.php');
+require_once(PATH_MODEL . 'UsuarioModel.php');
 require_once(PATH_CONTROLLER . 'SessionController.php');
 
 class CouchController {
@@ -66,10 +67,12 @@ class CouchController {
             ));
             if ($couch) {
                 $comentarios = ComentarioModel::getInstance()->getComentarios($_GET['id']);
+                $propietario = UsuarioModel::getInstance()->getById($couch['idUsuario']);
                 $view = new CouchView();
                 return $view->renderShow(array(
                             "session" => $dataSession,
                             "couch" => $couch,
+                            "propietario" => $propietario,
                             "comentarios" => $comentarios
                 ));
             } else {
@@ -147,7 +150,7 @@ class CouchController {
             $ciudades = CouchModel::getInstance()->getCiudades(array(
                 "id_provincia" => $couch['idProvincia']
             ));
-            
+
             if ($couch) {
                 $view = new CouchView();
                 return $view->renderEdit(array(

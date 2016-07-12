@@ -7,8 +7,13 @@
                 <img id="couchinnsNoImage" src="{{ constant('PATH_URL_IMG') }}couchinnLogo.png"/>
             {% endif %}
             <div class="caption">
-                <h4 class="text-center">{{ couch.ciudad |title }}</h4>
-                <h3 class="text-center">{{ couch.provincia | upper}}</h3>
+                <div class="col-md-12 couchTitulo">
+                    <h4 class="text-center">{{ couch.titulo | title }}</h4>
+                    <h4 class="text-center"><small><strong>{{ couch.provincia | upper}}</strong></small></h4>
+                    <h4 class="text-center">{{ couch.ciudad |title }}</h4>
+                </div>
+
+
                 <div class="col-md-12 couchDetalle">
                     <div class="col-md-6">
 
