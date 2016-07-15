@@ -148,7 +148,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1> Mis Couch's <small>- listado</small></h1>
+                            <h1><span class="glyphicon glyphicon-th-list"></span>  Mis Couch's <small>- listado</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
@@ -162,9 +162,9 @@
                             {% for couch in couchs %}
                                 <tr>
                                     <td class="text-center">{{ loop.index }}</td>
-                                    <td class="text-center">{{ couch.titulo | capitalize }} <strong><small>({{ couch.tipo | capitalize }})</small></strong></td>
+                                    <td class="">{{ couch.titulo | capitalize }} <strong><small>({{ couch.tipo | capitalize }})</small></strong></td>
                                     <td class="text-center">{{ couch.capacidad }}</td>
-                                    <td class="text-center"><strong>{{ couch.provincia | upper }}</strong> - <small>{{ couch.ciudad | title }}</small></td>   
+                                    <td class=""><strong>{{ couch.provincia | upper }}</strong> - <small>{{ couch.ciudad | title }}</small></td>   
                                     <td class="text-center {% if couch.bajaLogica == 0 %}online{% else %}offline{% endif %}">
                                         <strong>{% if couch.bajaLogica == 0 %}online{% else %}offline{% endif %}</strong>
                                     </td>

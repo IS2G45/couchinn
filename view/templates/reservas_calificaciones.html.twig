@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block otherStylesheet  %}
-    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}reserva.css" type="text/css" />
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}calificaciones.css" type="text/css" />
     <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
 {% endblock %}
 
@@ -110,50 +110,45 @@
             <div class="col-md-3 containerPublicidad">
                 {% include  "publicidad_4.html.twig" %}
             </div>
-            <div id="reservaContainer" class="col-md-9">
+            <div id="calificacionContainer" class="col-md-9">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1><span class="glyphicon glyphicon-copy"></span>  Reservas Recibidas<small>- pendientes</small></h1>
+                            <h1><span class="glyphicon glyphicon-star-empty"></span>  Calificaciones<small>- pendientes</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Couch</th>
-                                <th class="text-center">Comentario</th>
                                 <th class="text-center">Fechas</th>
                                 <th class="text-center">Reservado</th>
                                 <th class="text-center">Reservado por</th>
                                 <th class="text-center">Acción</th>
                             </tr>
-                            {% for recibida in recibidas %}
+                            {% for pendiente in pendientes %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
                                     <td>
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{recibida.idCouch}}">{{recibida.titulo |capitalize}}</a>
-                                    </td>
-                                    <td>
-                                        {{recibida.comentarioReserva |capitalize}}
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{pendiente.idCouch}}">{{pendiente.titulo |capitalize}}</a>
                                     </td>
                                     <td class="text-center">
-                                        Del <strong>{{recibida.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{recibida.fechaFin | date("d/m/Y")}}</strong>
+                                        Del <strong>{{pendiente.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{pendiente.fechaFin | date("d/m/Y")}}</strong>
                                     </td>
                                     <td class="text-center">
-                                        {{recibida.fechaAlta | date('d/m/Y H:i')}}
+                                        {{pendiente.fechaAlta | date('d/m/Y H:i')}}
                                     </td>
                                     <td class="text-center">
-                                        <strong>{{recibida.apellido |upper}}</strong> {{recibida.nombre |capitalize}}
+                                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{pendiente.idUsuarioHospedado}}">
+                                            <strong>{{pendiente.apellido |upper}}</strong> {{pendiente.nombre |capitalize}}
+                                        </a>
                                     </td>
 
                                     <td class="text-center">
-                                        <a title="RECHAZAR" href="#" class="reservaRechazarButton" onclick="rechazar({{recibida.idReserva}});">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </a>
-                                        <a title="ACEPTAR" href="#" class="reservaAceptarButton" onclick="aceptar({{recibida.idReserva}});">
-                                            <span class="glyphicon glyphicon-ok"></span>
+                                        <a title="CALIFICAR" href="#" class="reservaRechazarButton" onclick="rechazar({{pendiente.idReserva}});">
+                                            <span class="glyphicon glyphicon-star-empty"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -170,7 +165,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1><span class="glyphicon glyphicon-copy"></span>  Reservas Recibidas<small>- procesadas</small></h1>
+                            <h1><span class="glyphicon glyphicon-star"></span>  Calificaciones<small>- realizadas</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>

@@ -42,15 +42,15 @@ class UsuarioController {
             return ErrorHandlerController::getInstance()->notFoundAction();
         }
         $dataSession = $session->getData();
-        if (($dataSession['tipo'] == "ADMINISTRADOR") || ($usuario && $usuario['idUsuario'] == $dataSession['id'])) {
-            $view = new UsuarioView();
-            return $view->renderShow(array(
-                        "usuario" => $usuario,
-                        "session" => $dataSession
-            ));
-        } else {
-            return ErrorHandlerController::getInstance()->accessDeniedPageAction();
-        }
+        //    if (($dataSession['tipo'] == "ADMINISTRADOR") || ($usuario && $usuario['idUsuario'] == $dataSession['id'])) {
+        $view = new UsuarioView();
+        return $view->renderShow(array(
+                    "usuario" => $usuario,
+                    "session" => $dataSession
+        ));
+        //  } else {
+        //      return ErrorHandlerController::getInstance()->accessDeniedPageAction();
+        //  }
     }
 
     /**

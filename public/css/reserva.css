@@ -20,6 +20,9 @@ td.estadoAceptada{
     color: black;
     background-color: #70e4fe;
 }
+td.estadoAceptada a{
+    color: rgb(153,82,45);
+}
 a.reservaRechazarButton{
     color: red;
 }
@@ -29,4 +32,14 @@ a.reservaAceptarButton{
 #reservaContainer  div.panel{
     border-radius: 20px;
     border: 0px;
+}
+#reservaContainer table td, #reservaContainer table th{
+    vertical-align: middle !important;
+} 
+
+div.panel-success div.panel-footer, div.panel-success div.panel-heading{
+    background-color: #bde4fe !important;
+}
+div.panel-warning div.panel-footer, div.panel-warning div.panel-heading{
+    background-color: #fec657 !important;
 }

@@ -27,4 +27,17 @@ class ReservaView extends TwigView {
     public function renderListadoRecibidas($parameters = array()) {
         echo self::getTwig()->render('reservas_recibidas.html.twig', $parameters);
     }
+
+    /**
+     */
+    public function renderCalificaciones($parameters = array()) {
+        echo self::getTwig()->render('reservas_calificaciones.html.twig', $parameters);
+    }
+    
+    /**
+     */
+    public function renderMisCalificaciones($parameters = array()) {
+        echo self::getTwig()->render('reservas_miscalificaciones.html.twig', $parameters);
+    }
+
 }

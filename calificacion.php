@@ -8,6 +8,10 @@
   ini_set('display_errors', 1);
   error_reporting(-1);
  */
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 
 require_once('./config/config.php');
 require_once(PATH_CONTROLLER . 'ReservaController.php');
@@ -16,11 +20,11 @@ require_once(PATH_CONTROLLER . 'ErrorHandlerController.php');
 //Se chequea si el requerimiento http es via GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     switch ($_GET["action"]) {
-        case 'list_realizadas':
-            ReservaController::getInstance()->listadoRealizadasAction();
+        case 'list_calificar':
+            ReservaController::getInstance()->listadoParaCalificarAction();
             break;
-        case 'list_recibidas':
-            ReservaController::getInstance()->listadoRecibidasAction();
+        case 'list_calificaciones':
+            ReservaController::getInstance()->listadoMisCalificacionesAction();
             break;
         default:
             //Se lanza una pagina de error
@@ -33,16 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
         case 'sent_reserva':
-            echo ReservaController::getInstance()->ajax_sentReservaAction();
-            break;
-        case 'aceptar_reserva':
-            echo ReservaController::getInstance()->ajax_aceptarReservaAction();
-            break;
-        case 'rechazar_reserva':
-            echo ReservaController::getInstance()->ajax_rechazarReservaAction();
+            //echo ReservaController::getInstance()->ajax_sentReservaAction();
             break;
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();
             break;
     }
 }
+

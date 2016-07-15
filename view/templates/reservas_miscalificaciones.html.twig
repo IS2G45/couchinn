@@ -1,18 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block otherStylesheet  %}
-    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}reserva.css" type="text/css" />
-    <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
-{% endblock %}
-
-{% block otherJavascripts %}
-    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/button.js"></script>
-    <script src="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.min.js"></script>
-    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
-    <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
-    <script type="text/javascript">
-
-    </script>
+    <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}calificaciones.css" type="text/css" />
 {% endblock %}
 
 {% block container %}
@@ -21,47 +10,51 @@
             <div class="col-md-3 containerPublicidad">
                 {% include  "publicidad_4.html.twig" %}
             </div>
-            <div id="reservaContainer" class="col-md-9">
-                <div class="panel panel-default">
+            <div id="calificacionContainer" class="col-md-9">
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1><span class="glyphicon glyphicon-paste"></span>  Reservas Realizadas<small>- pendientes</small></h1>
+                            <h1><span class="glyphicon glyphicon-star"></span>  Mis calificaciones <small>- realizadas a ti</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Couch</th>
-                                <th class="text-center">Comentario</th>
-                                <th class="text-center">Fechas</th>
-                                <th class="text-center">Reservado</th>
+                                <th class="text-center">Mi Pregunta</th>
+                                <th class="text-center">Realizado</th>
+                                <th class="text-center">Respuesta</th>
                                 <th class="text-center">Estado</th>
                             </tr>
                             {% for realizada in realizadas %}
+                                {% if realizada.respuesta is null %}
+                                    {% set claseTD = 'pendiente' %}
+                                {% else %}
+                                    {% set claseTD = 'respondida' %}
+                                {% endif %}
+
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
                                     <td>
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{realizada.idCouch}}">{{realizada.titulo |capitalize}}</a>
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{realizada.idCouch}}">{{realizada.titulo}}</a>
                                     </td>
                                     <td>
-                                        {{realizada.comentarioReserva |capitalize}}
+                                        <em>{{realizada.pregunta |capitalize}}</em>
                                     </td>
-                                    <td class="text-center">
-                                        Del <strong>{{realizada.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{realizada.fechaFin | date("d/m/Y")}}</strong>
-                                    </td>
-                                    <td class="text-center">
-                                        {{realizada.fechaAlta | date('d/m/Y H:i')}}
-                                    </td>
-                                    <td class="text-center estado{{realizada.estado|capitalize}}">
-                                        <strong>{{realizada.estado | upper}}</strong>
-                                        {% if realizada.estado == 'ACEPTADA' %}
-                                            <br>
-                                            <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{realizada.propietario}}">
-                                                <span class="glyphicon glyphicon-hand-right"></span> <strong>CONTACTAR!</strong>
-                                            </a>
-                                        {% endif %}
+                                    <td class="text-center">{{realizada.fecha | date('d/m/Y  H:i')}}</td>
+
+                                    {% if realizada.respuesta is null %}
+                                        <td class="text-center">---</td>
+                                    {% else %}
+                                        <td><strong>{{realizada.respuesta |capitalize}}</strong></td>
+                                    {% endif %}
+
+                                    <td class="text-center {{ claseTD }}">
+                                        <strong>
+                                            {% if realizada.respuesta is null %}PENDIENTE{% else %}RESPONDIDA{% endif %}
+                                        </strong>
                                     </td>
                                 </tr>
                             {% endfor %}

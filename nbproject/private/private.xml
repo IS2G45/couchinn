@@ -12,22 +12,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/reservas_realizadas.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/layout.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/ReservaView.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/usuario_show.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/reserva.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/public/css/reserva.css</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/ReservaModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/publicidad_4.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/reservas_recibidas.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/public/css/layout.css</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/PagoModel.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/CouchModel.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/index.php</file>
             <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/index.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/usuario.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/UsuarioController.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/model/UsuarioModel.php</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/templates/publicidad_1.html.twig</file>
-            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/ReservaController.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/view/IndexView.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/reserva.php</file>
+            <file>file:/home/kibunke/Development/Proyectos/couchinn/controller/IndexController.php</file>
         </group>
     </open-files>
 </project-private>

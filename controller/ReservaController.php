@@ -68,6 +68,54 @@ class ReservaController {
     /**
      * 
      */
+    public function listadoMisCalificacionesAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            $view = new ErrorHandlerView();
+            return $view->renderAcccesDenied();
+        }
+        $dataSession = $session->getData();
+        $view = new ReservaView();
+
+
+        $pendientes = ReservaModel::getInstance()->getCalificacionesPendientes($dataSession['id']);
+
+        $calificadas = ReservaModel::getInstance()->getCalificacionesRealizadas($dataSession['id']);
+
+        return $view->renderMisCalificaciones(array(
+                    "session" => $dataSession,
+                    "pendientes" => $pendientes,
+                    "calificadas" => $calificadas
+        ));
+    }
+
+    /**
+     * 
+     */
+    public function listadoParaCalificarAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            $view = new ErrorHandlerView();
+            return $view->renderAcccesDenied();
+        }
+        $dataSession = $session->getData();
+        $view = new ReservaView();
+
+
+        $pendientes = ReservaModel::getInstance()->getCalificacionesPendientes($dataSession['id']);
+
+        $calificadas = ReservaModel::getInstance()->getCalificacionesRealizadas($dataSession['id']);
+
+        return $view->renderCalificaciones(array(
+                    "session" => $dataSession,
+                    "pendientes" => $pendientes,
+                    "calificadas" => $calificadas
+        ));
+    }
+
+    /**
+     * 
+     */
     public function ajax_aceptarReservaAction() {
         $session = SessionController::getInstance();
         if (!$session->isLogginAction()) {
@@ -76,18 +124,12 @@ class ReservaController {
                 "msj" => "Error de acceso."
             ));
         }
-
-
         $estado = ReservaModel::getInstance()->getEstado("ACEPTADA");
         $dataSession = $session->getData();
         ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
             "idReservaEstado" => $estado['id']
         ));
         $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
-
-
-
-
         $paraRechazar = ReservaModel::getInstance()->reservasEnRangoFecha($reserva['idCouch'], $reserva['fechaInicio'], $reserva['fechaFin']);
         $estado = ReservaModel::getInstance()->getEstado("RECHAZADA");
         foreach ($paraRechazar as $res) {

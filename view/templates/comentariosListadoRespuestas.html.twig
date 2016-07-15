@@ -75,7 +75,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1>Consultas <small>- pendientes por responder</small></h1>
+                            <h1><span class="glyphicon glyphicon-envelope"></span>  Consultas <small>- pendientes por responder</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
@@ -89,13 +89,13 @@
                             {% for pendiente in pendientes %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
-                                    <td class="text-center">
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{pendiente.idCouch}}">{{pendiente.titulo}}</a>
+                                    <td class="">
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{pendiente.idCouch}}">{{pendiente.titulo | capitalize}}</a>
                                     </td>
                                     <td>
                                         <em>{{pendiente.pregunta |capitalize}}</em>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="">
                                         <strong>{{pendiente.apellido}}</strong> {{pendiente.nombre}}
                                     </td>
                                     <td class="text-center">{{pendiente.fecha | date('d/m/Y  H:i')}}</td>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1>Consultas <small>- repondidas por ti</small></h1>
+                            <h1><span class="glyphicon glyphicon-envelope"></span> Consultas <small>- repondidas por ti</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
@@ -131,13 +131,13 @@
                             {% for respondida in respondidas %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
-                                    <td class="text-center">
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{respondida.idCouch}}">{{respondida.titulo}}</a>
+                                    <td class="">
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{respondida.idCouch}}">{{respondida.titulo | capitalize}}</a>
                                     </td>
                                     <td>
                                         <em>{{respondida.pregunta |capitalize}}</em>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="">
                                         <strong>{{respondida.apellido}}</strong> {{respondida.nombre}}
                                     </td>
                                     <td><strong>{{respondida.respuesta}}</strong></td>

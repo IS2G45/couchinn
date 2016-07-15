@@ -45,7 +45,7 @@ class ReservaModel extends PDORepository {
      * 
      */
     public function getListadoRealizados($idUsuario) {
-        return $this->select("SELECT c.foto, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+        return $this->select("SELECT c.foto, c.titulo, c.idUsuario AS propietario, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
                         . "FROM reserva AS r "
                         . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
                         . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
@@ -78,7 +78,7 @@ class ReservaModel extends PDORepository {
      */
     public function getListadoRecibidosNoPendientes($idUsuario) {
         $estado = $this->getEstado("PENDIENTE");
-        return $this->select("SELECT p.nombre, p.apellido, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+        return $this->select("SELECT p.nombre, p.apellido, c.titulo, c.idUsuario AS propietario, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
                         . "FROM reserva AS r "
                         . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
                         . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
@@ -128,6 +128,31 @@ class ReservaModel extends PDORepository {
             "idReserva" => $idReserva,
         ));
         return (count($resultado) > 0) ? reset($resultado) : null;
+    }
+
+    /**
+     * 
+     */
+    public function getCalificacionesPendientes($idUsuario) {
+        $estado = $this->getEstado("ACEPTADA");
+        return $this->select("SELECT p.nombre, p.apellido, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+                        . "FROM reserva AS r "
+                        . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
+                        . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
+                        . "INNER JOIN usuario AS u ON u.idUsuario = r.idUsuarioHospedado "
+                        . "INNER JOIN persona AS p ON u.idPersona = p.idPersona "
+                        . "WHERE c.bajaLogica = 0 AND r.bajaLogica = 0 AND c.idUsuario = :idUsuario AND r.idReservaEstado = :idReservaEstado AND CURDATE() > r.fechaFin "
+                        . "ORDER BY r.fechaAlta DESC ", array(
+                    "idUsuario" => $idUsuario,
+                    "idReservaEstado" => $estado['id']
+        ));
+    }
+
+    /**
+     * 
+     */
+    public function getCalificacionesRealizadas() {
+        
     }
 
     /**
