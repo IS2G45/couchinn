@@ -11,6 +11,27 @@
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
     <script type="text/javascript">
+
+        function ver_calificacion(idUsuario) {
+            $.ajax({
+                method: "POST",
+                url: "{{ constant('ROOT_URL') }}reserva.php?action=get_calificacion",
+                dataType: "text", //Ojo con cambiar a json
+                data: {"idUsuario": idUsuario},
+                beforeSend: function () {
+
+                },
+                complete: function (data) {
+                    swal({
+                        title: "Calificación",
+                        text: data.msj,
+                        type: "info",
+                    }, function () {
+                       // swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    });
+                }
+            });
+        }
         function ajax_aceptar(idReserva) {
             return ajax_reservas(idReserva, "aceptar_reserva");
         }
@@ -75,7 +96,48 @@
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    ajax_aceptar(idReserva);
+                    $.ajax({
+                        // la URL para la petición
+                        url: "{{ constant('ROOT_URL') }}reserva.php?action=verificar_conflicto",
+                        // la información a enviar
+                        // (también es posible utilizar una cadena de datos)
+                        data: {"idReserva": idReserva},
+                        // especifica si será una petición POST o GET
+                        type: 'POST',
+                        // el tipo de información que se espera de respuesta
+                        dataType: 'json',
+                        // código a ejecutar si la petición es satisfactoria;
+                        // la respuesta es pasada como argumento a la función
+                        success: function (json) {
+                            if (json.error) {
+                                swal({
+                                    title: "Estas seguro de continuar con la reserva?",
+                                    text: json.msj,
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Si, estoy seguro!",
+                                    cancelButtonText: "No, cancelar!",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    ajax_aceptar(idReserva);
+                                });
+                            } else {
+                                ajax_aceptar(idReserva);
+                            }
+                        },
+                        // código a ejecutar si la petición falla;
+                        // son pasados como argumentos a la función
+                        // el objeto de la petición en crudo y código de estatus de la petición
+                        error: function (xhr, status) {
+                            alert('Disculpe, existió un problema');
+                        },
+                        // código a ejecutar sin importar si la petición falló o no
+                        complete: function (xhr, status) {
+                            //alert('Petición realizada');
+                        }
+                    });
+
                 }
             });
         }
@@ -145,7 +207,7 @@
                                         {{recibida.fechaAlta | date('d/m/Y H:i')}}
                                     </td>
                                     <td class="text-center">
-                                        <strong>{{recibida.apellido |upper}}</strong> {{recibida.nombre |capitalize}}
+                                        <strong>{{recibida.apellido |upper}}</strong> {{recibida.nombre |capitalize}} <a href="#" onclick="ver_calificacion({{recibida.idUsuarioHospedado}})">(ver <span class="glyphicon glyphicon-star"></span>)</a>
                                     </td>
 
                                     <td class="text-center">

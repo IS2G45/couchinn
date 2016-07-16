@@ -16,6 +16,10 @@ td.estadoRechazada{
     color: whitesmoke;
     background-color: red;
 }
+td.estadoCalificada{
+    color: black;
+    background-color: #a5f4a1;
+}
 td.estadoAceptada{
     color: black;
     background-color: #70e4fe;

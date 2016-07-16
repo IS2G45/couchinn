@@ -17,12 +17,16 @@ class IndexView extends TwigView {
     public function renderCouchinns($parameters = array()) {
         return self::getTwig()->render('indexcouchinns.html.twig', $parameters);
     }
-    
+
     /**
      * 
      */
     public function renderPaginador($parameters = array()) {
         return self::getTwig()->render('indexpaginador.html.twig', $parameters);
+    }
+
+    public function renderPaginadorSearch($parameters = array()) {
+        return self::getTwig()->render('indexpaginadorsearch.html.twig', $parameters);
     }
 
 }

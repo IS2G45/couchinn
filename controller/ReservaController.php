@@ -78,14 +78,11 @@ class ReservaController {
         $view = new ReservaView();
 
 
-        $pendientes = ReservaModel::getInstance()->getCalificacionesPendientes($dataSession['id']);
-
-        $calificadas = ReservaModel::getInstance()->getCalificacionesRealizadas($dataSession['id']);
+        $miscalificaciones = ReservaModel::getInstance()->getMisCalificaciones($dataSession['id']);
 
         return $view->renderMisCalificaciones(array(
                     "session" => $dataSession,
-                    "pendientes" => $pendientes,
-                    "calificadas" => $calificadas
+                    "miscalificaciones" => $miscalificaciones,
         ));
     }
 
@@ -101,7 +98,6 @@ class ReservaController {
         $dataSession = $session->getData();
         $view = new ReservaView();
 
-
         $pendientes = ReservaModel::getInstance()->getCalificacionesPendientes($dataSession['id']);
 
         $calificadas = ReservaModel::getInstance()->getCalificacionesRealizadas($dataSession['id']);
@@ -116,6 +112,75 @@ class ReservaController {
     /**
      * 
      */
+    public function ajax_sentCalificacionAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "Error de acceso."
+            ));
+        }
+        $estado = ReservaModel::getInstance()->getEstado("CALIFICADA");
+        ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
+            "puntajeUsuario" => $_POST['calificacion'],
+            "comentarioUsuario" => $_POST['comentario'],
+            "idReservaEstado" => $estado['id']
+        ));
+        return json_encode(array(
+            "error" => false,
+        ));
+    }
+
+    /**
+     * 
+     */
+    public function ajax_getCalificacionAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "Error de acceso."
+            ));
+        }
+        $miscalificaciones = ReservaModel::getInstance()->getMisCalificaciones($_POST['idUsuario']);
+        $total = 0;
+        foreach ($miscalificaciones as $cal) {
+            $total = $total + $cal['puntajeUsuario'];
+        }
+        return json_encode(array(
+            "error" => false,
+            "msj" => "Hay conflictos de fechas con " . (count($paraRechazar) - 1) . " reservas más. De continuar, estas reserva/s serán RECHAZADAS automaticamente."
+        ));
+    }
+
+    /**
+     * 
+     */
+    public function ajax_hayconflitofechaAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "Error de acceso."
+            ));
+        }
+        $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
+        $paraRechazar = ReservaModel::getInstance()->reservasEnRangoFecha($reserva['idCouch'], $reserva['fechaInicio'], $reserva['fechaFin']);
+        if (count($paraRechazar) > 1) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "Hay conflictos de fechas con " . (count($paraRechazar) - 1) . " reservas más. De continuar, estas reserva/s serán RECHAZADAS automaticamente."
+            ));
+        } else {
+            return json_encode(array(
+                "error" => false,
+            ));
+        }
+    }
+
+    /**
+     * 
+     */
     public function ajax_aceptarReservaAction() {
         $session = SessionController::getInstance();
         if (!$session->isLogginAction()) {
@@ -124,13 +189,29 @@ class ReservaController {
                 "msj" => "Error de acceso."
             ));
         }
+        //verificar si ya hay una reserva aceptada en esa fecha
+        $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
+        $paraRechazar = ReservaModel::getInstance()->reservasEnRangoFecha($reserva['idCouch'], $reserva['fechaInicio'], $reserva['fechaFin']);
+        $flag = null;
+        foreach ($paraRechazar as $res) {
+            if ($res['estado'] == "ACEPTADA") {
+                $flag = $res;
+            }
+        }
+        if ($flag != null) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "La fecha ya se encuentra reservada para " . ucfirst($res['apellido']) . " " . ucfirst($res['nombre']) . ". Vuelva a verificar el listado de reservas procesadas."
+            ));
+        }
+        //Cambiar estado de la reserva a aceptar
         $estado = ReservaModel::getInstance()->getEstado("ACEPTADA");
         $dataSession = $session->getData();
         ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
             "idReservaEstado" => $estado['id']
         ));
-        $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
-        $paraRechazar = ReservaModel::getInstance()->reservasEnRangoFecha($reserva['idCouch'], $reserva['fechaInicio'], $reserva['fechaFin']);
+        //Rechazar todas las que superponen con la aceptada
+        //$paraRechazar = ReservaModel::getInstance()->reservasEnRangoFecha($reserva['idCouch'], $reserva['fechaInicio'], $reserva['fechaFin']);
         $estado = ReservaModel::getInstance()->getEstado("RECHAZADA");
         foreach ($paraRechazar as $res) {
             if ($res['idReserva'] != $_POST['idReserva']) {

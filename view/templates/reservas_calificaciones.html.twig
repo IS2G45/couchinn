@@ -11,96 +11,54 @@
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
     <script type="text/javascript">
-        function ajax_aceptar(idReserva) {
-            return ajax_reservas(idReserva, "aceptar_reserva");
+        function calificar(idReserva) {
+            $("#idReservaForm").attr("value", idReserva);
+            $("#CalificarModal").modal({
+                "show": true,
+                "keyboard": false,
+                "backdrop": "static",
+            });
         }
+        $(document).ready(function () {
+            $('#calificarForm').submit(function (event) {
+                //cambiar estado del boton submit
+                $("#calificarSubmit").button('loading');
 
-        function ajax_rechazar(idReserva) {
-            return ajax_reservas(idReserva, "rechazar_reserva");
-        }
-
-        function ajax_reservas(idReserva, action) {
-            $.ajax({
-                // la URL para la petición
-                url: "{{ constant('ROOT_URL') }}reserva.php?action=" + action,
-                // la información a enviar
-                // (también es posible utilizar una cadena de datos)
-                data: {"idReserva": idReserva},
-                // especifica si será una petición POST o GET
-                type: 'POST',
-                // el tipo de información que se espera de respuesta
-                dataType: 'json',
-                // código a ejecutar si la petición es satisfactoria;
-                // la respuesta es pasada como argumento a la función
-                success: function (json) {
-                    if (json.error) {
-                        swal("Error!", json.msj, "error");
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ constant('ROOT_URL') }}calificacion.php?action=sent_calificacion",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    dataType: 'json',
+                    processData: false
+                }).done(function (data) {
+                    //Se verifica si hubo error del lado del servidor
+                    if (data.error) {
+                        // swal("Error!", "Tu Couch NO fue registrado en el sistema." + data.msj, "error");
                     } else {
+                        $("#CalificarModal").modal("hide");
+                        //Cambiar botton
+                        $("#calificarSubmit").button('reset');
+                        //Reset form
+                        $('#calificarForm').trigger("reset");
                         swal({
-                            title: "Terminado!",
-                            text: "El Couch fue despublicado correctamente!",
+                            title: "Felicitaciones!",
+                            text: "Tu calificación fue registrada exitosamente!",
                             type: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar",
                             closeOnConfirm: false
                         }, function (isConfirm) {
                             if (isConfirm)
-                                $(location).attr('href', "{{ constant('ROOT_URL') }}reserva.php?action=list_recibidas");
+                                $(location).attr('href', "{{ constant('ROOT_URL') }}calificacion.php?action=list_calificar");
                         });
                     }
-                },
-                // código a ejecutar si la petición falla;
-                // son pasados como argumentos a la función
-                // el objeto de la petición en crudo y código de estatus de la petición
-                error: function (xhr, status) {
-                    alert('Disculpe, existió un problema');
-                },
-                // código a ejecutar sin importar si la petición falló o no
-                complete: function (xhr, status) {
-                    //alert('Petición realizada');
-                }
+                });
+                event.preventDefault();
             });
-        }
-
-        function aceptar(idReserva) {
-            swal({
-                title: "Aceptar reserva",
-                text: "Esta a punto de aceptar la reserva seleccionada!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, aceptar!",
-                cancelButtonText: "No, cancelar!",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    ajax_aceptar(idReserva);
-                }
-            });
-        }
-
-        function rechazar(idReserva) {
-            swal({
-                title: "Rechazar reserva",
-                text: "Esta a punto de rechazar la reserva seleccionada!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, rechazar!",
-                cancelButtonText: "No, cancelar!",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    ajax_rechazar(idReserva);
-                }
-            });
-        }
-
-        $(document).ready(function () {
-
         });
+
     </script>
 {% endblock %}
 
@@ -117,20 +75,25 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header">
-                            <h1><span class="glyphicon glyphicon-star-empty"></span>  Calificaciones<small>- pendientes</small></h1>
+                            <h1><span class="glyphicon glyphicon-star-empty"></span>  Calificar Huésped<small>- pendientes</small></h1>
                         </div>
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Couch</th>
-                                <th class="text-center">Fechas</th>
-                                <th class="text-center">Reservado</th>
-                                <th class="text-center">Reservado por</th>
+                                <th class="text-center">Huésped</th>
+                                <th class="text-center">Couch visitado</th>
+                                <th class="text-center">Perdiodo visitado</th>                                
                                 <th class="text-center">Acción</th>
                             </tr>
                             {% for pendiente in pendientes %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
+                                    <td>
+                                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{pendiente.idUsuarioHospedado}}">
+                                            <strong>{{pendiente.apellido |upper}}</strong> {{pendiente.nombre |capitalize}} 
+                                        </a>
+                                        <a href="#">(<span class="glyphicon glyphicon-star"></span> Ver calificación)</a>
+                                    </td>
                                     <td>
                                         <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{pendiente.idCouch}}">{{pendiente.titulo |capitalize}}</a>
                                     </td>
@@ -138,16 +101,7 @@
                                         Del <strong>{{pendiente.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{pendiente.fechaFin | date("d/m/Y")}}</strong>
                                     </td>
                                     <td class="text-center">
-                                        {{pendiente.fechaAlta | date('d/m/Y H:i')}}
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{pendiente.idUsuarioHospedado}}">
-                                            <strong>{{pendiente.apellido |upper}}</strong> {{pendiente.nombre |capitalize}}
-                                        </a>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a title="CALIFICAR" href="#" class="reservaRechazarButton" onclick="rechazar({{pendiente.idReserva}});">
+                                        <a title="CALIFICAR" href="#" class="reservaRechazarButton" onclick="calificar({{pendiente.idReserva}});">
                                             <span class="glyphicon glyphicon-star-empty"></span>
                                         </a>
                                     </td>
@@ -170,40 +124,32 @@
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Couch</th>
+                                <th class="text-center">Huésped</th>
+                                <th class="text-center">Couch visitado</th>
+                                <th class="text-center">Perdiodo visitado</th>                                
+                                <th class="text-center">Calificación</th>
                                 <th class="text-center">Comentario</th>
-                                <th class="text-center">Fechas</th>
-                                <th class="text-center">Reservado</th>
-                                <th class="text-center">Reservado por</th>
-                                <th class="text-center">Estado</th>
                             </tr>
-                            {% for noPendiente in noPendientes %}
+                            {% for calificada in calificadas %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
                                     <td>
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{noPendiente.idCouch}}">{{noPendiente.titulo |capitalize}}</a>
+                                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{calificada.idUsuarioHospedado}}">
+                                            <strong>{{calificada.apellido |upper}}</strong> {{calificada.nombre |capitalize}} 
+                                        </a>
+                                        <a href="#">(<span class="glyphicon glyphicon-star"></span> Ver calificación)</a>
                                     </td>
                                     <td>
-                                        {{noPendiente.comentarioReserva |capitalize}}
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{calificada.idCouch}}">{{calificada.titulo |capitalize}}</a>
                                     </td>
                                     <td class="text-center">
-                                        Del <strong>{{noPendiente.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{noPendiente.fechaFin | date("d/m/Y")}}</strong>
+                                        Del <strong>{{calificada.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{calificada.fechaFin | date("d/m/Y")}}</strong>
                                     </td>
                                     <td class="text-center">
-                                        {{noPendiente.fechaAlta | date('d/m/Y H:i')}}
+                                        {{calificada.puntajeUsuario}} <span class="glyphicon glyphicon-star"></span>
                                     </td>
-                                    <td class="text-center">
-                                        <strong>{{noPendiente.apellido |upper}}</strong> {{noPendiente.nombre |capitalize}}
-                                    </td>
-
-                                    <td class="text-center estado{{noPendiente.estado|capitalize}}">
-                                        <strong>{{noPendiente.estado |upper}}</strong>
-                                        {% if noPendiente.estado == 'ACEPTADA' %}
-                                            <br>
-                                            <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{noPendiente.propietario}}">
-                                                <span class="glyphicon glyphicon-hand-right"></span><strong>CONTACTAR!</strong>
-                                            </a>
-                                        {% endif %}
+                                    <td>
+                                        {{calificada.comentarioUsuario | capitalize}}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -212,6 +158,48 @@
                     <div class="panel-footer">
                     </div>
                 </div>
+            </div>
+            <div id="CalificarModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="calificarForm" class="form-horizontal">
+                            <input id="idReservaForm" type="hidden" value="" name="idReserva">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 class="modal-title"><span class="glyphicon glyphicon-star-empty"></span> <strong>Calificar</strong></h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group form-group-lg">
+                                    <label for="huespedes" class="col-sm-3 control-label">Valoración</label>
+                                    <div class="col-sm-3">
+                                        <select id="calificaionModal" class="form-control" name="calificacion" required="required">
+                                            <option class="text-center" value="">----</option>
+                                            <option class="text-center" value="1">1</option>
+                                            <option class="text-center" value="2">2</otion>
+                                            <option class="text-center" value="3">3</option>
+                                            <option class="text-center" value="4">4</option>
+                                            <option class="text-center" value="5">5</option>
+                                            <option class="text-center" value="6">6</option>
+                                            <option class="text-center" value="7">7</option>
+                                            <option class="text-center" value="8">8</option>
+                                            <option class="text-center" value="9">9</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-lg">
+                                    <label for="passActual" class="col-sm-3 control-label">Comentario</label>
+                                    <div class="col-sm-9">
+                                        <textarea id="comentarioModal" name="comentario" class="form-control" rows="7" required="required" placeholder="Ingresar el comentario..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <button id="calificarSubmit" type="submit"  data-loading-text="Calificando..." class="btn btn-primary">Calificar</button>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
             </div>
             <div class="col-md-12  containerPublicidad">
                 {% include  "publicidad_3.html.twig" %}

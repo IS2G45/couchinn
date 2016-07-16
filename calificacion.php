@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 //Se chequea si el requerimiento http es via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_GET["action"]) {
-        case 'sent_reserva':
-            //echo ReservaController::getInstance()->ajax_sentReservaAction();
+        case 'sent_calificacion':
+            echo ReservaController::getInstance()->ajax_sentCalificacionAction();
             break;
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();

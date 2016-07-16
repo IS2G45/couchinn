@@ -1,9 +1,69 @@
 <div id="searcher" class="row">
     <div class="col-md-3 col-md-offset-2 ">
-        <h2>¿Cu&aacute;ndo piensas viajar?</h2>
-        <h1><strong>Encontr&aacute; tu Couch</strong></h1>
-        
+        <h4>¿Cu&aacute;ndo piensas viajar?</h4>
+        <h3>
+            <strong>Encontr&aacute; tu Couch</strong>
+        </h3>
+        <div>
+            <form id="searchForm" class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group form-group-sm">
+                            <label for="searchCouchTipo" class="col-md-3 control-label ">Tipo</label>
+                            <div class="col-md-9">
+                                <select id="searchCouchTipo" class="form-control" name="idTipoCouch">
+                                    <option value="">Seleccionar...</option> 
+                                    {% for tipo in tipos %}
+                                        <option value="{{ tipo.idTipoCouch }}">{{ tipo.nombre |title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label for="searchCouchLugar" class="col-md-3 control-label">Lugar</label>
+                            <div class="col-md-9">
+                                <select id="searchCouchProvincia" name="idProvincia" class="form-control">
+                                    <option value="">Provincia...</option>
+                                    {% for provincia in	provincias %}
+                                        <option value="{{ provincia.id }}">{{ provincia.nombre | title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-sm">
+                            <label for="searchCouchLugar" class="col-md-3 control-label"> 
+                                <img id="ciudadLoading" src="{{ constant('PATH_URL_IMG') }}loading7.gif" style="height: 25px; background: none" alt="Logo de Couchinn">
+                            </label>
+                            <div class="col-md-9">
+                                <select id="searchCouchCiudad" class="form-control" name="idCiudad">
+                                    <option value="">Ciudad...</option> 
+                                    {% for ciudad in ciudades %}
+                                        <option value="{{ ciudad.idCiudad }}">{{ ciudad.nombre | title }}</option> 
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-sm">
+                            <label for="searchCouchDescripcion" class="col-md-3 control-label">Descripci&oacute;n</label>
+                            <div class="col-md-9">
+                                <textarea id="searchCouchDescripcion" name="descripcion" class="form-control" rows="1" placeholder="Descripción"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-7 col-sm-10">
+                                <button id="searchCouchSubmit" type="submit"
+                                        data-loading-text="Buscando..." class="btn btn-primary btn-sm">BUSCAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
     <div class="col-md-5">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->

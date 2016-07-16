@@ -18,3 +18,6 @@ div.panel-success div.panel-footer, div.panel-success div.panel-heading{
 div.panel-warning div.panel-footer, div.panel-warning div.panel-heading{
     background-color: #fec657 !important;
 }
+#calificacionContainer table *{
+    vertical-align: middle;
+}

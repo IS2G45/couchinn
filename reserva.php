@@ -38,8 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'aceptar_reserva':
             echo ReservaController::getInstance()->ajax_aceptarReservaAction();
             break;
+        case 'verificar_conflicto':
+            echo ReservaController::getInstance()->ajax_hayconflitofechaAction();
+            break;
         case 'rechazar_reserva':
             echo ReservaController::getInstance()->ajax_rechazarReservaAction();
+            break;
+        case 'get_calificacion':
+            echo ReservaController::getInstance()->ajax_getCalificacionAction();
             break;
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();

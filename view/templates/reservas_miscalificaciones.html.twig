@@ -22,42 +22,49 @@
                         <table class="table table-condensed table-striped table-bordered">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Couch</th>
-                                <th class="text-center">Mi Pregunta</th>
-                                <th class="text-center">Realizado</th>
-                                <th class="text-center">Respuesta</th>
-                                <th class="text-center">Estado</th>
+                                <th class="text-center">Couch visitado</th>
+                                <th class="text-center">Periodo visitado</th>
+                                <th class="text-center">Calificación</th>
+                                <th class="text-center">Comentario recibido</th>
+                                <th class="text-center">Calificado por</th>
                             </tr>
-                            {% for realizada in realizadas %}
-                                {% if realizada.respuesta is null %}
-                                    {% set claseTD = 'pendiente' %}
-                                {% else %}
-                                    {% set claseTD = 'respondida' %}
-                                {% endif %}
-
+                            {% set total = 0 %}
+                            {% for micalificacion in miscalificaciones %}
                                 <tr>
                                     <td class="text-center">{{loop.index}}</td>
                                     <td>
-                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{realizada.idCouch}}">{{realizada.titulo}}</a>
+                                        <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{micalificacion.idCouch}}">{{micalificacion.titulo |capitalize}}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        Del <strong>{{micalificacion.fechaInicio | date("d/m/Y")}}</strong> al <strong>{{micalificacion.fechaFin | date("d/m/Y")}}</strong>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <h3>{{micalificacion.puntajeUsuario}}</h3>  <span class="glyphicon glyphicon-star"></span>
+                                    </td>
+
+                                    <td>
+                                        {{micalificacion.comentarioUsuario | capitalize}}
                                     </td>
                                     <td>
-                                        <em>{{realizada.pregunta |capitalize}}</em>
-                                    </td>
-                                    <td class="text-center">{{realizada.fecha | date('d/m/Y  H:i')}}</td>
-
-                                    {% if realizada.respuesta is null %}
-                                        <td class="text-center">---</td>
-                                    {% else %}
-                                        <td><strong>{{realizada.respuesta |capitalize}}</strong></td>
-                                    {% endif %}
-
-                                    <td class="text-center {{ claseTD }}">
-                                        <strong>
-                                            {% if realizada.respuesta is null %}PENDIENTE{% else %}RESPONDIDA{% endif %}
-                                        </strong>
+                                        <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{micalificacion.idPropietario}}">
+                                            <strong>{{micalificacion.apellido |upper}}</strong> {{micalificacion.nombre |capitalize}} 
+                                        </a>
                                     </td>
                                 </tr>
+                                {% set total = total + micalificacion.puntajeUsuario %}
                             {% endfor %}
+                            {% if miscalificaciones | length > 0%}
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        <h4><em><strong>PROMEDIO</strong></em></h4>
+                                    </td>        
+
+                                    <td class="text-center">
+                                        <strong><h2>{{(total /  miscalificaciones| length)}}  <small><span class="glyphicon glyphicon-star"></span></small></h2></strong>
+                                    </td>
+                                </tr>
+                            {% endif %}
                         </table>
                     </div>
                     <div class="panel-footer">
@@ -67,44 +74,6 @@
             <div class="col-md-12  containerPublicidad">
                 {% include  "publicidad_3.html.twig" %}
             </div>
-        </div>
-        <div id="contestarModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form id="contestarForm" class="form-horizontal">
-                        <input id="idModal" type="hidden" name="id" value="">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Contestar</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group form-group-lg">
-                                <label for="passActual" class="col-sm-3 control-label">Destinatario</label>
-                                <div class="col-sm-9">
-                                    <p id="destinatarioModal" class="form-control-static"></p>
-                                </div>
-                            </div>
-                            <div class="form-group form-group-lg">
-                                <label for="passActual" class="col-sm-3 control-label">Comentario</label>
-                                <div class="col-sm-9">
-                                    <p id="comentarioModal" class="form-control-static"></p>
-                                </div>
-                            </div>
-                            <div class="form-group form-group-lg">
-                                <label for="passActual" class="col-sm-3 control-label">Respuesta</label>
-                                <div class="col-sm-9">
-                                    <textarea id="respuestaModal" name="comentario" class="form-control" rows="7" required="required" placeholder="Ingresar la respuesta..."></textarea>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                            <button id="contestarFormSubmit" type="submit"  data-loading-text="Enviando..." class="btn btn-primary">Contestar</button>
-                        </div>
-                    </form>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
         </div>
     </div>
 

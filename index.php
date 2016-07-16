@@ -19,5 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 //Se chequea si el requerimiento http es via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    return IndexController::getInstance()->ajax_paginadorAction();
+    switch ($_GET["action"]) {
+        case 'paginator':
+            return IndexController::getInstance()->ajax_paginadorAction();
+            break;
+        case 'search_data':
+            return IndexController::getInstance()->ajax_searchCouchsAction();
+            break;
+        case 'search_paginator':
+            return IndexController::getInstance()->ajax_paginadorSearchCouchsAction();
+            break;
+        default:
+            echo ErrorHandlerController::getInstance()->notFoundAction();
+            break;
+    }
 }

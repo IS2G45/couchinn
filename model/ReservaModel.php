@@ -151,10 +151,40 @@ class ReservaModel extends PDORepository {
     /**
      * 
      */
-    public function getCalificacionesRealizadas() {
-        
+    public function getCalificacionesRealizadas($idUsuario) {
+        $estado = $this->getEstado("CALIFICADA");
+        return $this->select("SELECT p.nombre, p.apellido, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+                        . "FROM reserva AS r "
+                        . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
+                        . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
+                        . "INNER JOIN usuario AS u ON u.idUsuario = r.idUsuarioHospedado "
+                        . "INNER JOIN persona AS p ON u.idPersona = p.idPersona "
+                        . "WHERE c.bajaLogica = 0 AND r.bajaLogica = 0 AND c.idUsuario = :idUsuario AND r.idReservaEstado = :idReservaEstado AND CURDATE() > r.fechaFin "
+                        . "ORDER BY r.fechaAlta DESC ", array(
+                    "idUsuario" => $idUsuario,
+                    "idReservaEstado" => $estado['id']
+        ));
     }
 
+    /**
+     * 
+     */
+    public function getMisCalificaciones($idUsuario) {
+        $estado = $this->getEstado("CALIFICADA");
+        return $this->select("SELECT c.idUsuario AS idPropietario, p.nombre, p.apellido, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+                        . "FROM reserva AS r "
+                        . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
+                        . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
+                        . "INNER JOIN usuario AS u ON u.idUsuario = c.idUsuario "
+                        . "INNER JOIN persona AS p ON u.idPersona = p.idPersona "
+                        . "WHERE c.bajaLogica = 0 AND r.bajaLogica = 0 AND r.idUsuarioHospedado = :idUsuarioHospedado AND r.idReservaEstado = :idReservaEstado  "
+                        . "ORDER BY r.fechaAlta DESC ", array(
+                    "idUsuarioHospedado" => $idUsuario,
+                    "idReservaEstado" => $estado['id']
+        ));
+    }
+    
+    
     /**
      * Esta funcion es creada solamente porque las BD no tienen como nombre del id de la tabla 'id'
      */
