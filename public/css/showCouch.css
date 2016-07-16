@@ -68,3 +68,8 @@ and open the template in the editor.
    font-weight: bolder;
    color: white;
 }
+#calificaiconesContainer blockquote{
+    margin: 0px;
+    background-color: rgb(247, 245, 239);
+    border-radius: 20px;
+}
