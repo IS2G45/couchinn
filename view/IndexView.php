@@ -17,7 +17,7 @@ class IndexView extends TwigView {
     public function renderCouchinns($parameters = array()) {
         return self::getTwig()->render('indexcouchinns.html.twig', $parameters);
     }
-
+    
     /**
      * 
      */
@@ -26,7 +26,7 @@ class IndexView extends TwigView {
     }
 
     public function renderPaginadorSearch($parameters = array()) {
-        return self::getTwig()->render('indexpaginadorsearch.html.twig', $parameters);
+    	return self::getTwig()->render('indexpaginadorsearch.html.twig', $parameters);
     }
-
+    
 }

@@ -1,6 +1,5 @@
 <div id="searcher" class="row">
     <div class="col-md-3 col-md-offset-2 ">
-        <h4>¿Cu&aacute;ndo piensas viajar?</h4>
         <h3>
             <strong>Encontr&aacute; tu Couch</strong>
         </h3>
@@ -48,16 +47,18 @@
                         <div class="form-group form-group-sm">
                             <label for="searchCouchDescripcion" class="col-md-3 control-label">Descripci&oacute;n</label>
                             <div class="col-md-9">
-                                <textarea id="searchCouchDescripcion" name="descripcion" class="form-control" rows="1" placeholder="Descripción"></textarea>
+                                <textarea id="searchCouchDescripcion" name="descripcion" class="form-control" rows="2" placeholder="Descripción"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-7 col-sm-10">
+                            <div class="col-sm-offset-5 col-sm-10">
+                                <button id="clearSearchCouchSubmit" type="reset" onclick=" location.href = ' {{ constant('ROOT_URL') }}index.php'" class= "btn btn-primary btn-sm">LIMPIAR</button>
                                 <button id="searchCouchSubmit" type="submit"
                                         data-loading-text="Buscando..." class="btn btn-primary btn-sm">BUSCAR</button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </form>

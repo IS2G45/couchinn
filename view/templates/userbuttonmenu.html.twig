@@ -11,6 +11,9 @@
             <li role="separator" class="divider"></li>
                 {% if session.tipo == 'ADMINISTRADOR' %}
                 <li><a href="{{ constant('ROOT_URL') }}tipocouch.php"><span class="glyphicon glyphicon-tags"></span> TIPO COUCH</a></li>
+                <li class="dropdown-header">REPORTES</li>
+                <li><a href="{{ constant('ROOT_URL') }}reporte.php?action=solicitudes"><span class="glyphicon glyphicon-envelope"></span> SOLICITUDES</a></li>
+                <li><a href="{{ constant('ROOT_URL') }}comentario.php?action=list_questions"><span class="glyphicon glyphicon-envelope"></span> GANANCIAS</a></li>
                 <!--<li class="dropdown-header">USUARIOS</li>
                 <li><a href="#"><span class="glyphicon glyphicon-plus"></span> NUEVO</a></li>
                 <!--<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> LISTADO</a></li> -->

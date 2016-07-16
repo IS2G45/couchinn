@@ -54,7 +54,6 @@
                     "firstDay": 1
                 },
                 "alwaysShowCalendars": true,
-            
             }, function (start, end, label) {
                 //console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
             });
@@ -181,6 +180,27 @@
                                             <p class="form-control-static">{{ couch.ciudad | capitalize}} - {{ couch.provincia | title}}</p>
                                         </div>
                                     </div>
+                                    <div class="form-group form-group-lg">
+                                        <label for="newCouchLugar" class="col-md-3 control-label">Calificación</label>
+                                        {% set total = 0 %}
+                                        {% set invalidos = 0 %}
+                                        {% for item in calificaciones %}
+                                            {% if item.puntajeCouch is not null %}
+                                                {% set total = total + item.puntajeCouch %}
+                                            {% else %}
+                                                {% set invalidos = invalidos + 1 %}
+                                            {%endif%}
+                                        {% endfor %}
+                                        {% if calificaciones | length > 0%}
+                                            <div class="col-md-9">
+                                                <p class="form-control-static">{{ (total / ((calificaciones | length) - invalidos)) |round}} <span class="glyphicon glyphicon-star"></span></p>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-9">
+                                                <p class="form-control-static">0</p>
+                                            </div>
+                                        {% endif%}
+                                    </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div id="imagePreview" class="col-md-12" data-toggle="tooltip" data-placement="left" title="Agregar Foto...">
@@ -224,6 +244,33 @@
                             </div>
                             <div id="consultasConteiner" class="col-md-12">
                                 {% include 'comentarios.html.twig' %}
+                            </div>
+                            <div class="row">
+                                <div class="page-header">
+                                    <h3 class="text-center"><strong>Calificaciones</strong></h3>
+                                </div>
+                            </div>
+                            <div  class="col-md-12">
+                                {% for calif in calificaciones %}
+                                    {% if calif.comentarioCouch is not null %}
+                                        <div class="panel panel-primary panelComentario">
+                                            <div class="panel-body">
+                                                <div class="col-md-11 alert alert-warning" role="alert">
+                                                    <blockquote class="blockquote">
+                                                        <p><span class="glyphicon glyphicon-user"></span>  USUARIO ({{calif.puntajeCouch}}<span class="glyphicon glyphicon-star"></span>)</p>
+                                                        <footer>
+                                                            <cite title="Usuario">
+                                                                <strong>{{ calif.comentarioCouch |capitalize }}</strong>  
+                                                            </cite>
+                                                            <br>
+                                                            -<em>Visitado del {{ calif.fechaIni | date('d/m/Y') }} al {{ calif.fechaFin | date('d/m/Y') }} </em>
+                                                        </footer>
+                                                    </blockquote>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         </form>
                     </div>

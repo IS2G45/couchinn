@@ -41,6 +41,8 @@ class ReservaModel extends PDORepository {
         return (count($resultado) > 0) ? reset($resultado) : null;
     }
 
+    
+   
     /**
      * 
      */

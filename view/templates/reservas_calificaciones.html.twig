@@ -3,14 +3,32 @@
 {% block otherStylesheet  %}
     <link rel="stylesheet" href="{{ constant('PATH_URL_CSS') }}calificaciones.css" type="text/css" />
     <link rel="stylesheet" href="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.css" type="text/css" />
+    
 {% endblock %}
 
 {% block otherJavascripts %}
+    <script src="{{ constant('PATH_URL_VENDOR') }}bootstrap-daterangepicker-master/moment.min.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/button.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}sweetalert-master/dist/sweetalert.min.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/modal.js"></script>
     <script src="{{ constant('PATH_URL_VENDOR') }}twbs/bootstrap/js/tooltip.js"></script>
     <script type="text/javascript">
+        function ver_calificacion(idUsuario) {
+            $.ajax({
+                method: "POST",
+                url: "{{ constant('ROOT_URL') }}calificacion.php?action=ver_calificacion",
+                dataType: "json",
+                data: {"idUsuario": idUsuario},
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    swal(""+data.msj);
+                }
+            });
+
+        }
+
         function calificar(idReserva) {
             $("#idReservaForm").attr("value", idReserva);
             $("#CalificarModal").modal({
@@ -92,7 +110,7 @@
                                         <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{pendiente.idUsuarioHospedado}}">
                                             <strong>{{pendiente.apellido |upper}}</strong> {{pendiente.nombre |capitalize}} 
                                         </a>
-                                        <a href="#">(<span class="glyphicon glyphicon-star"></span> Ver calificación)</a>
+                                        <a href="#" onclick="ver_calificacion({{pendiente.idUsuarioHospedado}});">(<span class="glyphicon glyphicon-star"></span> Ver calificación)</a>
                                     </td>
                                     <td>
                                         <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{pendiente.idCouch}}">{{pendiente.titulo |capitalize}}</a>
@@ -137,7 +155,6 @@
                                         <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{calificada.idUsuarioHospedado}}">
                                             <strong>{{calificada.apellido |upper}}</strong> {{calificada.nombre |capitalize}} 
                                         </a>
-                                        <a href="#">(<span class="glyphicon glyphicon-star"></span> Ver calificación)</a>
                                     </td>
                                     <td>
                                         <a href="{{ constant('ROOT_URL') }}couch.php?action=show&id={{calificada.idCouch}}">{{calificada.titulo |capitalize}}</a>
@@ -166,7 +183,7 @@
                             <input id="idReservaForm" type="hidden" value="" name="idReserva">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h3 class="modal-title"><span class="glyphicon glyphicon-star-empty"></span> <strong>Calificar</strong></h3>
+                                <h3 class="modal-title"><span class="glyphicon glyphicon-star-empty"></span> <strong>Calificar Usuario</strong></h3>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group form-group-lg">

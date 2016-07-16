@@ -33,6 +33,19 @@ class CouchModel extends PDORepository {
         return count($result);
     }
 
+    public function getCalificaciones($idCouch) {
+        return $result = $this->select("SELECT c.idUsuario AS idPropietario, p.nombre, p.apellido, c.titulo, r.idReserva, r.idCouch, r.idUsuarioHospedado, r.idReservaEstado, r.fechaInicio, r.fechaFin, r.comentarioUsuario, r.comentarioReserva, r.comentarioCouch, r.puntajeCouch, r.puntajeUsuario, r.fechaAlta, r.bajaLogica, re.nombre AS estado "
+                . "FROM reserva AS r "
+                . "INNER JOIN reservaestado AS re ON r.idReservaEstado = re.id "
+                . "INNER JOIN couch AS c ON c.idCouch = r.idCouch "
+                . "INNER JOIN usuario AS u ON u.idUsuario = c.idUsuario "
+                . "INNER JOIN persona AS p ON u.idPersona = p.idPersona "
+                . "WHERE c.bajaLogica = 0 AND r.bajaLogica = 0  AND c.idCouch = :idCouch "
+                . "ORDER BY r.fechaAlta DESC ", array(
+            "idCouch" => $idCouch,
+        ));
+    }
+
     /**
      * 
      */
@@ -492,6 +505,183 @@ class CouchModel extends PDORepository {
                 . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
                 . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 AND couch.idTipoCouch = :idTipoCouch "
                 . "AND p_c.id_provincia = :idProvincia ", $parameters);
+
+        return count($result);
+    }
+
+    public function searchCouchsByTipoDescripcion($parameters) {
+        $result = $this->select(""
+                . "SELECT couch.idCouch, couch.titulo, couch.descripcion, couch.capacidad, couch.idTipoCouch AS idTipoCouch, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, p.id AS idProvincia, c.idCiudad AS idCiudad, c.nombre AS ciudad "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 AND couch.idTipoCouch = :idTipoCouch "
+                . "AND couch.descripcion LIKE :descripcion "
+                . "ORDER BY couch.idCouch DESC "
+                . "LIMIT :limit "
+                . "OFFSET :offset", $parameters);
+
+        $resultProcess = array();
+        foreach ($result as $couch) {
+            $couch['foto'] = base64_encode($couch["foto"]);
+            $resultProcess[] = $couch;
+        }
+
+        return $resultProcess;
+    }
+
+    public function countCouchsByTipoDescripcion($parameters) {
+        $result = $this->select(""
+                . "SELECT * "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 AND couch.idTipoCouch = :idTipoCouch "
+                . "AND couch.descripcion LIKE :descripcion ", $parameters);
+
+        return count($result);
+    }
+
+    public function searchCouchsByTipoProvDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT couch.idCouch, couch.titulo, couch.descripcion, couch.capacidad, couch.idTipoCouch AS idTipoCouch, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, p.id AS idProvincia, c.idCiudad AS idCiudad, c.nombre AS ciudad "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 AND couch.idTipoCouch = :idTipoCouch "
+                . "AND p_c.id_provincia = :idProvincia "
+                . "AND couch.descripcion LIKE :descripcion "
+                . "ORDER BY couch.idCouch DESC "
+                . "LIMIT :limit "
+                . "OFFSET :offset", $parameters);
+
+        $resultProcess = array();
+        foreach ($result as $couch) {
+            $couch['foto'] = base64_encode($couch["foto"]);
+            $resultProcess[] = $couch;
+        }
+
+        return $resultProcess;
+    }
+
+    /**
+     * Retorna cantidad de couchs que coincidan con los parametros pasados
+     * @param unknown $parameters
+     * @return number
+     */
+    public function countCouchsByTipoProvDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT * "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 AND couch.idTipoCouch = :idTipoCouch "
+                . "AND p_c.id_provincia = :idProvincia "
+                . "AND couch.descripcion LIKE :descripcion ", $parameters);
+
+        return count($result);
+    }
+
+    public function searchCouchsByProvCdadDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT couch.idCouch, couch.titulo, couch.descripcion, couch.capacidad, couch.idTipoCouch AS idTipoCouch, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, p.id AS idProvincia, c.idCiudad AS idCiudad, c.nombre AS ciudad "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 "
+                . "AND p_c.id_provincia = :idProvincia AND p_c.id_ciudad = :idCiudad "
+                . "AND couch.descripcion LIKE :descripcion "
+                . "ORDER BY couch.idCouch DESC "
+                . "LIMIT :limit "
+                . "OFFSET :offset", $parameters);
+
+        $resultProcess = array();
+        foreach ($result as $couch) {
+            $couch['foto'] = base64_encode($couch["foto"]);
+            $resultProcess[] = $couch;
+        }
+
+        return $resultProcess;
+    }
+
+    /**
+     * Retorna cantidad de couchs que coincidan con los parametros pasados
+     * @param unknown $parameters
+     * @return number
+     */
+    public function countCouchsByProvCdadDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT * "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 "
+                . "AND p_c.id_provincia = :idProvincia AND p_c.id_ciudad = :idCiudad "
+                . "AND couch.descripcion LIKE :descripcion ", $parameters);
+
+        return count($result);
+    }
+
+    public function searchCouchsByProvDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT couch.idCouch, couch.titulo, couch.descripcion, couch.capacidad, couch.idTipoCouch AS idTipoCouch, couch.foto, couch.idUsuario, tc.nombre AS tipo, p.nombre AS provincia, p.id AS idProvincia, c.idCiudad AS idCiudad, c.nombre AS ciudad "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 "
+                . "AND p_c.id_provincia = :idProvincia "
+                . "AND couch.descripcion LIKE :descripcion "
+                . "ORDER BY couch.idCouch DESC "
+                . "LIMIT :limit "
+                . "OFFSET :offset", $parameters);
+
+        $resultProcess = array();
+        foreach ($result as $couch) {
+            $couch['foto'] = base64_encode($couch["foto"]);
+            $resultProcess[] = $couch;
+        }
+
+        return $resultProcess;
+    }
+
+    /**
+     * Retorna cantidad de couchs que coincidan con los parametros pasados
+     * @param unknown $parameters
+     * @return number
+     */
+    public function countCouchsByProvDescrip($parameters) {
+        $result = $this->select(""
+                . "SELECT * "
+                . "FROM couch "
+                . "INNER JOIN tipocouch AS tc ON tc.idTipoCouch = couch.idTipoCouch "
+                . "INNER JOIN provincia_ciudad AS p_c ON  p_c.id_ciudad = couch.idCiudad "
+                . "INNER JOIN provincia AS p ON p.id = p_c.id_provincia "
+                . "INNER JOIN ciudad AS c ON c.idCiudad = p_c.id_ciudad "
+                . "WHERE couch.bajaLogica = 0 AND c.bajaLogica = 0 "
+                . "AND p.bajaLogica = 0 AND tc.bajaLogica = 0 "
+                . "AND p_c.id_provincia = :idProvincia "
+                . "AND couch.descripcion LIKE :descripcion ", $parameters);
 
         return count($result);
     }

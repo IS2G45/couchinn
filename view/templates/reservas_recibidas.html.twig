@@ -15,20 +15,14 @@
         function ver_calificacion(idUsuario) {
             $.ajax({
                 method: "POST",
-                url: "{{ constant('ROOT_URL') }}reserva.php?action=get_calificacion",
-                dataType: "text", //Ojo con cambiar a json
+                url: "{{ constant('ROOT_URL') }}calificacion.php?action=ver_calificacion",
+                dataType: "json",
                 data: {"idUsuario": idUsuario},
                 beforeSend: function () {
 
                 },
-                complete: function (data) {
-                    swal({
-                        title: "Calificación",
-                        text: data.msj,
-                        type: "info",
-                    }, function () {
-                       // swal("Deleted!", "Your imaginary file has been deleted.", "success");
-                    });
+                success: function (data) {
+                    swal("" + data.msj);
                 }
             });
         }
@@ -263,15 +257,31 @@
                                         <strong>{{noPendiente.apellido |upper}}</strong> {{noPendiente.nombre |capitalize}}
                                     </td>
 
-                                    <td class="text-center estado{{noPendiente.estado|capitalize}}">
-                                        <strong>{{noPendiente.estado |upper}}</strong>
-                                        {% if noPendiente.estado == 'ACEPTADA' %}
-                                            <br>
-                                            <a href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{noPendiente.propietario}}">
-                                                <span class="glyphicon glyphicon-hand-right"></span><strong>CONTACTAR!</strong>
-                                            </a>
-                                        {% endif %}
-                                    </td>
+                                    {% if noPendiente.puntajeUsuario is null %}
+                                        <td class="text-center estado{{noPendiente.estado|capitalize}}">
+                                            <strong>{{noPendiente.estado |upper}}</strong>
+                                            {% if noPendiente.estado == 'ACEPTADA' %}
+                                                <br>
+                                                {%if date(noPendiente.fechaFin)< date() %}
+                                                    <a class="parpadea" href="{{ constant('ROOT_URL') }}calificacion.php?action=list_calificar">
+                                                        <span class="glyphicon glyphicon-hand-right"></span><strong>CALIFICAR!</strong>
+                                                    </a>
+                                                {%else%}
+                                                    <a class="parpadea" href="{{ constant('ROOT_URL') }}usuario.php?action=show&id={{noPendiente.idUsuarioHospedado}}">
+                                                        <span class="glyphicon glyphicon-hand-right"></span><strong>CONTACTAR!</strong>
+                                                    </a>
+                                                {% endif %}
+
+
+                                            {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td class="text-center estadoCalificada">
+                                            <strong>CALIFICADO</strong>
+
+                                        </td>    
+                                    {% endif %}
+
                                 </tr>
                             {% endfor %}
                         </table>

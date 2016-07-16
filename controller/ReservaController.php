@@ -112,6 +112,38 @@ class ReservaController {
     /**
      * 
      */
+    public function ajax_sentCalificacionCouchAction() {
+        $session = SessionController::getInstance();
+        if (!$session->isLogginAction()) {
+            return json_encode(array(
+                "error" => true,
+                "msj" => "Error de acceso."
+            ));
+        }
+        $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
+        $estado = ReservaModel::getInstance()->getEstado("CALIFICADA");
+
+        if ($reserva['puntajeUsuario'] == NULL) {
+            ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
+                "puntajeCouch" => $_POST['calificacion'],
+                "comentarioCouch" => $_POST['comentario'],
+            ));
+        } else {
+            ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
+                "puntajeCouch" => $_POST['calificacion'],
+                "comentarioCouch" => $_POST['comentario'],
+                "idReservaEstado" => $estado['id']
+            ));
+        }
+
+        return json_encode(array(
+            "error" => false,
+        ));
+    }
+
+    /**
+     * 
+     */
     public function ajax_sentCalificacionAction() {
         $session = SessionController::getInstance();
         if (!$session->isLogginAction()) {
@@ -120,12 +152,22 @@ class ReservaController {
                 "msj" => "Error de acceso."
             ));
         }
+        $reserva = ReservaModel::getInstance()->getById($_POST['idReserva']);
         $estado = ReservaModel::getInstance()->getEstado("CALIFICADA");
-        ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
-            "puntajeUsuario" => $_POST['calificacion'],
-            "comentarioUsuario" => $_POST['comentario'],
-            "idReservaEstado" => $estado['id']
-        ));
+
+        if ($reserva['puntajeCouch'] == NULL) {
+            ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
+                "puntajeUsuario" => $_POST['calificacion'],
+                "comentarioUsuario" => $_POST['comentario'],
+            ));
+        } else {
+            ReservaModel::getInstance()->updateReserva($_POST['idReserva'], array(
+                "puntajeUsuario" => $_POST['calificacion'],
+                "comentarioUsuario" => $_POST['comentario'],
+                "idReservaEstado" => $estado['id']
+            ));
+        }
+
         return json_encode(array(
             "error" => false,
         ));
@@ -149,7 +191,7 @@ class ReservaController {
         }
         return json_encode(array(
             "error" => false,
-            "msj" => "Hay conflictos de fechas con " . (count($paraRechazar) - 1) . " reservas más. De continuar, estas reserva/s serán RECHAZADAS automaticamente."
+            "msj" => "La calificación del usuario: " . $total / (count($miscalificaciones) == 0 ? 1 : count($miscalificaciones))
         ));
     }
 

@@ -13,10 +13,14 @@ td.estadoPendiente{
     background-color: yellow;
 }
 td.estadoRechazada{
-    color: whitesmoke;
-    background-color: red;
+    color: black;
+    background-color: #ffc2bc;
 }
 td.estadoCalificada{
+    color: black;
+    background-color: #a5f4a1;
+}
+td.estadoCalificar{
     color: black;
     background-color: #a5f4a1;
 }
@@ -25,7 +29,7 @@ td.estadoAceptada{
     background-color: #70e4fe;
 }
 td.estadoAceptada a{
-    color: rgb(153,82,45);
+    color: black;
 }
 a.reservaRechazarButton{
     color: red;
@@ -46,4 +50,34 @@ div.panel-success div.panel-footer, div.panel-success div.panel-heading{
 }
 div.panel-warning div.panel-footer, div.panel-warning div.panel-heading{
     background-color: #fec657 !important;
+}
+.parpadea {
+
+    animation-name: parpadeo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
 }

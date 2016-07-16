@@ -68,12 +68,14 @@ class CouchController {
             if ($couch) {
                 $comentarios = ComentarioModel::getInstance()->getComentarios($_GET['id']);
                 $propietario = UsuarioModel::getInstance()->getById($couch['idUsuario']);
+                $calificaciones = CouchModel::getInstance()->getCalificaciones($_GET['id']);
                 $view = new CouchView();
                 return $view->renderShow(array(
                             "session" => $dataSession,
                             "couch" => $couch,
                             "propietario" => $propietario,
-                            "comentarios" => $comentarios
+                            "comentarios" => $comentarios,
+                            "calificaciones" => $calificaciones
                 ));
             } else {
                 //No fue encontrado el couch en la BD

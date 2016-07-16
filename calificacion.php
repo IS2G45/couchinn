@@ -39,6 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'sent_calificacion':
             echo ReservaController::getInstance()->ajax_sentCalificacionAction();
             break;
+        case 'sent_calificacionCouch':
+            echo ReservaController::getInstance()->ajax_sentCalificacionCouchAction();
+            break;
+        case 'ver_calificacion':
+            echo ReservaController::getInstance()->ajax_getCalificacionAction();
+            break;
+        
         default:
             echo ErrorHandlerController::getInstance()->notFoundAction();
             break;
